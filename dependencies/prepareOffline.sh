@@ -17,19 +17,13 @@
 basedir=${PWD##*/}
 printf 'current dir %s\n' "${PWD##*/}"
 
-rpmdir="$(basedir)/rpm"
-if [ ! -d "$rpmdir"]; then  
-　　mkdir "$rpmdir"  
-fi
+yum install -y rpms/netaddr.rpm
 
-if [ ! -d "$rpmdir/"]; then  
-　　mkdir "$rpmdir"
-fi 
-wget http://mirror.centos.org/centos/7/extras/x86_64/Packages/docker-1.12.6-11.el7.centos.x86_64.rpm -o rpm/docker.rpm
+yum install -y rpms/ansible.rpm
 
-wget http://dl.fedoraproject.org/pub/epel/7/x86_64/a/ansible-2.2.1.0-1.el7.noarch.rpm -o rpm/ansible.rpm
+yum install -y rpms/docker.rpm
 
-docker pull registry:2
+docker load < containers/registry.tar
 
-docker save -o registry.tar registry:2
+docker run -d -p 5000:5000 -v registry:/var/lib/registry --name registry registry:2
 

@@ -1,7 +1,7 @@
 ---
 - name: Create dest directories
   file:
-    path: "{{playbook_dir}}/../dependence/{{item}}"
+    path: "{{playbook_dir}}/dependencies/{{item}}"
     state: directory
     recurse: yes
   with_items: 
@@ -12,7 +12,7 @@
 - name: Download items
   get_url:
     url: "{{item.url}}"
-    dest: "{{playbook_dir}}/../dependence/rpms/{{item.dest}}"
+    dest: "{{playbook_dir}}/dependencies/rpms/{{item.dest}}"
   register: get_url_result
   until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
   retries: 4
@@ -26,7 +26,7 @@
   docker_image:
     name: registry
     tag: 2
-    archive_path: "{{playbook_dir}}/../dependence/containers/registry2.tar"
+    archive_path: "{{playbook_dir}}/dependencies/containers/registry2.tar"
 
 - name: Configration docker service |add local registry
   lineinfile: 
@@ -49,7 +49,7 @@
     name: registry
     image: registry:2
     volumes:
-      - "{{playbook_dir}}/../dependence/registry:/var/lib/registry"
+      - "{{playbook_dir}}/dependencies/registry:/var/lib/registry"
     ports:
      - "5000:5000"
 
