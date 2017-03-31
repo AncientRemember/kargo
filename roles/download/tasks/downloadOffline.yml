@@ -56,7 +56,7 @@
 
 - name: Tag and push to docker hub
   docker_image:
-    name: "{item.value.repo}"
+    name: "{{item.value.repo}}"
     repository: "localhost:5000/{{item.value.name}}"
     tag: "{{item.value.tag}}"
     push: yes
