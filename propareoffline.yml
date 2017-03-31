@@ -2,4 +2,4 @@
 - hosts: localhost
   gather_facts: False
   roles:
-    - { role: prepareoffline}
+    - { role: prepareoffline,install_offline: true,insecure_registry: "192.168.29.33:5000" }
