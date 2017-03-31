@@ -1,0 +1,6 @@
+---
+- name: a play that runs entirely on the ansible host
+  hosts: 127.0.0.1
+  connection: local
+  roles:
+  - { role: download,install_offline: true,insecure_registry: "192.168.29.33:5000" }
