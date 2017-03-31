@@ -378,6 +378,9 @@ downloads:
     repo: "{{ tiller_image_repo }}"
     tag: "{{ tiller_image_tag }}"
     sha256: "{{ tiller_digest_checksum|default(None) }}"
+  downloaddependence: 
+    container: false
+    enabled: false
 
 download:
   container: "{{ file.container|default('false') }}"
