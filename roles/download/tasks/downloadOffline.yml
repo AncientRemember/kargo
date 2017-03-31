@@ -59,6 +59,6 @@
     repository: "localhost:5000/{{item.name}}"
     tag: {{item.tag}}
     push: yes
-  with_items: {{downloads}}
+  with_items: {{ downloads }}
   when: item.container|bool
  
