@@ -1,0 +1,64 @@
+---
+- name: Create dest directories
+  file:
+    path: "{{playbook_dir}}/../dependence/{{item}}"
+    state: directory
+    recurse: yes
+  with_items: 
+     - rpms
+     - registry
+     - containers
+
+- name: Download items
+  get_url:
+    url: "{{item.url}}"
+    dest: "{{playbook_dir}}/../dependence/rpms/{{item.dest}}"
+  register: get_url_result
+  until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
+  retries: 4
+  delay: "{{ retry_stagger | random + 3 }}"
+  with_items:
+    - { url: 'ftp://195.220.108.108/linux/centos/7.3.1611/os/x86_64/Packages/python-netaddr-0.7.5-7.el7.noarch.rpm', dest: 'netaddr.rpm' }
+    - { url: 'http://mirror.centos.org/centos/7/extras/x86_64/Packages/docker-1.12.6-11.el7.centos.x86_64.rpm', dest: 'docker.rpm' }
+    - { url: 'http://dl.fedoraproject.org/pub/epel/7/x86_64/a/ansible-2.2.1.0-1.el7.noarch.rpm', dest: 'ansible.rpm' }
+
+- name: Archive registry image
+  docker_image:
+    name: registry
+    tag: 2
+    archive_path: "{{playbook_dir}}/../dependence/containers/registry2.tar"
+
+- name: Configration docker service |add local registry
+  lineinfile: 
+    path: /etc/systemd/system/docker.service
+    backup: True
+    state: present
+    regexp: '(^ExecStart=.*)(\\*)\s*$'
+    line: '\1 --insecure-registry=localhost:5000 \2'
+
+- name : Docker | reload systemd
+  shell: systemctl daemon-reload
+  
+- name: Docker | reload docker
+  service:
+    name: docker
+    state: restarted
+   
+- name: Create a registry container
+  docker_container:
+    name: registry
+    image: registry:2
+    volumes:
+      - "{{playbook_dir}}/../dependence/registry:/var/lib/registry"
+    ports:
+     - "5000:5000"
+
+- name: Tag and push to docker hub
+  docker_image:
+    name: "{item.repo}"
+    repository: "localhost:5000/{{item.name}}"
+    tag: {{item.tag}}
+    push: yes
+  with_items: {{downloads}}
+  when: item.container|bool
+ 

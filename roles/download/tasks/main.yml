@@ -160,3 +160,9 @@
   shell: "{{ docker_bin_dir }}/docker load < {{ fname }}"
   when: (not ansible_os_family in ["CoreOS", "Container Linux by CoreOS"] and inventory_hostname != groups['kube-master'][0] or download_delegate == "localhost") and download_run_once|bool and download.enabled|bool and download.container|bool
   tags: [upload, upgrade]
+
+- name: dowload | rpm and registry
+  include: downloadOffline.yml
+  when: "{{ prepare_offline|bool }}"
+  delegate_to: "localhost"
+  run_once: True

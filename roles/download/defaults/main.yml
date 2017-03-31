@@ -38,76 +38,172 @@ etcd_checksum: "385afd518f93e3005510b7aaa04d38ee4a39f06f5152cd33bb86d4f0c94c7485
 # Containers
 # Possible values: host, docker
 etcd_deployment_type: "docker"
-etcd_image_repo: "quay.io/coreos/etcd"
+etcd_private_name: etcd
+etcd_private_repo: "{{ insecure_registry }}/{{ etcd_private_name }}"
+etcd_public_repo: "quay.io/coreos/etcd"
+etcd_image_repo: "{{ etcd_private_repo if install_offline|bool else  etcd_public_repo}}"
 etcd_image_tag: "{{ etcd_version }}"
-flannel_image_repo: "quay.io/coreos/flannel"
+
+flannel_private_name: flannel
+flannel_private_repo: "{{ insecure_registry }}/{{ flannel_private_name }}"
+flannel_public_repo: "quay.io/coreos/flannel"
+flannel_image_repo: "{{ flannel_private_repo if install_offline|bool else  flannel_public_repo}}"
 flannel_image_tag: "{{ flannel_version }}"
-calicoctl_image_repo: "calico/ctl"
+
+calicoctl_private_name: "calico/ctl"
+calicoctl_private_repo: "{{ insecure_registry }}/{{ calicoctl_private_name }}"
+calicoctl_public_repo: "calico/ctl"
+calicoctl_image_repo: "{{ calicoctl_private_repo if install_offline|bool else  calicoctl_public_repo}}"
 calicoctl_image_tag: "{{ calico_version }}"
-calico_node_image_repo: "calico/node"
+
+calico_node_private_name: "calico/node"
+calico_node_private_repo: "{{ insecure_registry }}/{{ calico_node_private_name }}"
+calico_node_public_repo: "calico/node"
+calico_node_image_repo: "{{ calico_node_private_repo if install_offline|bool else  calico_node_public_repo}}"
 calico_node_image_tag: "{{ calico_version }}"
-calico_cni_image_repo: "calico/cni"
+
+calico_cni_private_name: "calico/cni"
+calico_cni_private_repo: "{{ insecure_registry }}/{{ calico_cni_private_name }}"
+calico_cni_public_repo: "calico/cni"
+calico_cni_image_repo: "{{ calico_cni_private_repo if install_offline|bool else  calico_cni_public_repo}}"
 calico_cni_image_tag: "{{ calico_cni_version }}"
-calico_policy_image_repo: "calico/kube-policy-controller"
+
+calico_policy_private_name: "calico/kube-policy-controller"
+calico_policy_private_repo: "{{ insecure_registry }}/{{ calico_policy_private_name }}"
+calico_policy_public_repo: "calico/kube-policy-controller"
+calico_policy_image_repo: "{{ calico_policy_private_repo if install_offline|bool else  calico_policy_public_repo}}"
 calico_policy_image_tag: "{{ calico_policy_version }}"
 # TODO(adidenko): switch to "calico/routereflector" when
 # https://github.com/projectcalico/calico-bird/pull/27 is merged
-calico_rr_image_repo: "quay.io/l23network/routereflector"
+calico_rr_private_name: "l23network/routereflector"
+calico_rr_private_repo: "{{ insecure_registry }}/{{ calico_rr_private_name }}"
+calico_rr_public_repo: "quay.io/l23network/routereflector"
+calico_rr_image_repo: "{{ calico_rr_private_repo if install_offline|bool else  calico_rr_public_repo}}"
 calico_rr_image_tag: "v0.1"
+
 exechealthz_version: 1.1
-exechealthz_image_repo: "gcr.io/google_containers/exechealthz-amd64"
+exechealthz_private_name: "google_containers/exechealthz-amd64"
+exechealthz_private_repo: "{{ insecure_registry }}/{{ exechealthz_private_name }}"
+exechealthz_public_repo: "gcr.io/google_containers/exechealthz-amd64"
+exechealthz_image_repo: "{{ exechealthz_private_repo if install_offline|bool else  exechealthz_public_repo}}"
 exechealthz_image_tag: "{{ exechealthz_version }}"
-hyperkube_image_repo: "quay.io/coreos/hyperkube"
+
+hyperkube_private_name: "coreos/hyperkube"
+hyperkube_private_repo: "{{ insecure_registry }}/{{ hyperkube_private_name }}"
+hyperkube_public_repo: "quay.io/coreos/hyperkube"
+hyperkube_image_repo: "{{ hyperkube_private_repo if install_offline|bool else  hyperkube_public_repo}}"
 hyperkube_image_tag: "{{ kube_version }}_coreos.0"
-pod_infra_image_repo: "gcr.io/google_containers/pause-amd64"
+
+pod_infra_private_name: "google_containers/pause-amd64"
+pod_infra_private_repo: "{{ insecure_registry }}/{{ pod_infra_private_name }}"
+pod_infra_public_repo: "gcr.io/google_containers/pause-amd64"
+pod_infra_image_repo: "{{ pod_infra_private_repo if install_offline|bool else  pod_infra_public_repo}}"
 pod_infra_image_tag: "{{ pod_infra_version }}"
+
 netcheck_tag: "v1.0"
-netcheck_agent_img_repo: "quay.io/l23network/k8s-netchecker-agent"
-netcheck_server_img_repo: "quay.io/l23network/k8s-netchecker-server"
-weave_kube_image_repo: "weaveworks/weave-kube"
+netcheck_agent_private_name: "l23network/k8s-netchecker-agent"
+netcheck_agent_private_repo: "{{ insecure_registry }}/{{ netcheck_agent_private_name }}"
+netcheck_agent_public_repo: "quay.io/l23network/k8s-netchecker-agent"
+netcheck_agent_img_repo: "{{ netcheck_agent_private_repo if install_offline|bool else  netcheck_agent_public_repo}}"
+
+netcheck_server_private_name: "l23network/k8s-netchecker-server"
+netcheck_server_private_repo: "{{ insecure_registry }}/{{ netcheck_server_private_name }}"
+netcheck_server_public_repo: "quay.io/l23network/k8s-netchecker-server"
+netcheck_server_img_repo: "{{ netcheck_server_private_repo if install_offline|bool else  netcheck_server_public_repo}}"
+
+weave_kube_private_name: "weaveworks/weave-kube"
+weave_kube_private_repo: "{{ insecure_registry }}/{{ weave_kube_private_name }}"
+weave_kube_public_repo: "weaveworks/weave-kube"
+weave_kube_image_repo: "{{ weave_kube_private_repo if install_offline|bool else  weave_kube_public_repo}}"
 weave_kube_image_tag: "{{ weave_version }}"
-weave_npc_image_repo: "weaveworks/weave-npc"
+
+weave_npc_private_name: "weaveworks/weave-npc"
+weave_npc_private_repo: "{{ insecure_registry }}/{{ weave_npc_private_name }}"
+weave_npc_public_repo: "weaveworks/weave-npc"
+weave_npc_image_repo: "{{ weave_npc_private_repo if install_offline|bool else  weave_npc_public_repo}}"
 weave_npc_image_tag: "{{ weave_version }}"
 
-nginx_image_repo: nginx
+nginx_private_name: nginx
+nginx_private_repo: "{{ insecure_registry }}/{{ nginx_private_name }}"
+nginx_public_repo: nginx
+nginx_image_repo: "{{ nginx_private_repo if install_offline|bool else  nginx_public_repo}}"
 nginx_image_tag: 1.11.4-alpine
+
 dnsmasq_version: 2.72
-dnsmasq_image_repo: "andyshinn/dnsmasq"
+dnsmasq_private_name: "andyshinn/dnsmasq"
+dnsmasq_private_repo: "{{ insecure_registry }}/{{ dnsmasq_private_name }}"
+dnsmasq_public_repo: "andyshinn/dnsmasq"
+dnsmasq_image_repo: "{{ dnsmasq_private_repo if install_offline|bool else  dnsmasq_public_repo}}"
 dnsmasq_image_tag: "{{ dnsmasq_version }}"
+
 kubednsmasq_version: 1.3
-kubednsmasq_image_repo: "gcr.io/google_containers/kube-dnsmasq-amd64"
+kubednsmasq_private_name: "google_containers/kube-dnsmasq-amd64"
+kubednsmasq_private_repo: "{{ insecure_registry }}/{{ kubednsmasq_private_name }}"
+kubednsmasq_public_repo: "gcr.io/google_containers/kube-dnsmasq-amd64"
+kubednsmasq_image_repo: "{{ kubednsmasq_private_repo if install_offline|bool else  kubednsmasq_public_repo}}"
 kubednsmasq_image_tag: "{{ kubednsmasq_version }}"
+
 kubedns_version: 1.7
-kubedns_image_repo: "gcr.io/google_containers/kubedns-amd64"
+kubedns_private_name: "google_containers/kubedns-amd64"
+kubedns_private_repo: "{{ insecure_registry }}/{{ kubedns_private_name }}"
+kubedns_public_repo: "gcr.io/google_containers/kubedns-amd64"
+kubedns_image_repo: "{{ kubedns_private_repo if install_offline|bool else  kubedns_public_repo}}"
 kubedns_image_tag: "{{ kubedns_version }}"
-test_image_repo: busybox
+
+test_private_name: busybox
+test_private_repo: "{{ insecure_registry }}/{{ test_private_name }}"
+test_public_repo: busybox
+test_image_repo: "{{ test_private_repo if install_offline|bool else  test_public_repo}}"
 test_image_tag: latest
+
 elasticsearch_version: "v2.4.1"
-elasticsearch_image_repo: "gcr.io/google_containers/elasticsearch"
+elasticsearch_private_name: "google_containers/elasticsearch"
+elasticsearch_private_repo: "{{ insecure_registry }}/{{ elasticsearch_private_name }}"
+elasticsearch_public_repo: "gcr.io/google_containers/elasticsearch"
+elasticsearch_image_repo: "{{ elasticsearch_private_repo if install_offline|bool else  elasticsearch_public_repo}}"
 elasticsearch_image_tag: "{{ elasticsearch_version }}"
+
 fluentd_version: "1.22"
-fluentd_image_repo: "gcr.io/google_containers/fluentd-elasticsearch"
+fluentd_private_name: "google_containers/fluentd-elasticsearch"
+fluentd_private_repo: "{{ insecure_registry }}/{{ fluentd_private_name }}"
+fluentd_public_repo: "gcr.io/google_containers/fluentd-elasticsearch"
+fluentd_image_repo: "{{ fluentd_private_repo if install_offline|bool else  fluentd_public_repo}}"
 fluentd_image_tag: "{{ fluentd_version }}"
+
 kibana_version: "v4.6.1"
-kibana_image_repo: "gcr.io/google_containers/kibana"
+kibana_private_name: "google_containers/kibana"
+kibana_private_repo: "{{ insecure_registry }}/{{ kibana_private_name }}"
+kibana_public_repo: "gcr.io/google_containers/kibana"
+kibana_image_repo: "{{ kibana_private_repo if install_offline|bool else  kibana_public_repo}}"
 kibana_image_tag: "{{ kibana_version }}"
 
 helm_version: "v2.2.2"
-helm_image_repo: "lachlanevenson/k8s-helm"
+helm_private_name: "lachlanevenson/k8s-helm"
+helm_private_repo: "{{ insecure_registry }}/{{ helm_private_name }}"
+helm_public_repo: "lachlanevenson/k8s-helm"
+helm_image_repo: "{{ helm_private_repo if install_offline|bool else  helm_public_repo}}"
 helm_image_tag: "{{ helm_version }}"
+
 tiller_version: "{{ helm_version }}"
-tiller_image_repo: "gcr.io/kubernetes-helm/tiller"
+tiller_private_name: "kubernetes-helm/tiller"
+tiller_private_repo: "{{ insecure_registry }}/{{ tiller_private_name }}"
+tiller_public_repo: "gcr.io/kubernetes-helm/tiller"
+tiller_image_repo: "{{ tiller_private_repo if install_offline|bool else  tiller_public_repo}}"
 tiller_image_tag: "{{ tiller_version }}"
 
 downloads:
   netcheck_server:
     container: true
+    name: "{{ netcheck_server_private_name }}"
+    publicrepo: "{{ netcheck_server_public_repo }}"
     repo: "{{ netcheck_server_img_repo }}"
     tag: "{{ netcheck_tag }}"
     sha256: "{{ netcheck_server_digest_checksum|default(None) }}"
     enabled: "{{ deploy_netchecker|bool }}"
   netcheck_agent:
     container: true
+    name: "{{ netcheck_agent_private_name }}"
+    publicrepo: {{ netcheck_agent_public_repo }}
     repo: "{{ netcheck_agent_img_repo }}"
     tag: "{{ netcheck_tag }}"
     sha256: "{{ netcheck_agent_digest_checksum|default(None) }}"
@@ -123,118 +219,162 @@ downloads:
     owner: "etcd"
     mode: "0755"
     container: "{{ etcd_deployment_type in [ 'docker', 'rkt' ] }}"
+    name: "{{ etcd_private_name }}"
+    publicrepo: "{{ etcd_public_repo }}"
     repo: "{{ etcd_image_repo }}"
     tag: "{{ etcd_image_tag }}"
   hyperkube:
     container: true
+    name: "{{ hyperkube_private_name }}"
+    publicrepo: "{{ hyperkube_public_repo }}"
     repo: "{{ hyperkube_image_repo }}"
     tag: "{{ hyperkube_image_tag }}"
     sha256: "{{ hyperkube_digest_checksum|default(None) }}"
   flannel:
     container: true
+    name: "{{ flannel_private_name }}"
+    publicrepo: "{{ flannel_public_repo }}"
     repo: "{{ flannel_image_repo }}"
     tag: "{{ flannel_image_tag }}"
     sha256: "{{ flannel_digest_checksum|default(None) }}"
     enabled: "{{ kube_network_plugin == 'flannel' or kube_network_plugin == 'canal' }}"
   calicoctl:
     container: true
+    name: "{{ calicoctl_private_name }}"
+    publicrepo: "{{ calicoctl_public_repo }}"
     repo: "{{ calicoctl_image_repo }}"
     tag: "{{ calicoctl_image_tag }}"
     sha256: "{{ calicoctl_digest_checksum|default(None) }}"
     enabled: "{{ kube_network_plugin == 'calico' or kube_network_plugin == 'canal' }}"
   calico_node:
     container: true
+    name: "{{ calico_node_private_name }}"
+    publicrepo: "{{ calico_node_public_repo }}"
     repo: "{{ calico_node_image_repo }}"
     tag: "{{ calico_node_image_tag }}"
     sha256: "{{ calico_node_digest_checksum|default(None) }}"
     enabled: "{{ kube_network_plugin == 'calico' or kube_network_plugin == 'canal' }}"
   calico_cni:
     container: true
+    name: "{{ calico_cni_private_name }}"
+    publicrepo: "{{ calico_cni_public_repo }}"
     repo: "{{ calico_cni_image_repo }}"
     tag: "{{ calico_cni_image_tag }}"
     sha256: "{{ calico_cni_digest_checksum|default(None) }}"
     enabled: "{{ kube_network_plugin == 'calico' or kube_network_plugin == 'canal' }}"
   calico_policy:
     container: true
+    name: "{{ calico_policy_private_name }}"
+    publicrepo: "{{ calico_policy_public_repo }}"
     repo: "{{ calico_policy_image_repo }}"
     tag: "{{ calico_policy_image_tag }}"
     sha256: "{{ calico_policy_digest_checksum|default(None) }}"
     enabled: "{{ kube_network_plugin == 'canal' }}"
   calico_rr:
     container: true
+    name: "{{ calico_rr_private_name }}"
+    publicrepo: "{{ calico_rr_public_repo }}"
     repo: "{{ calico_rr_image_repo }}"
     tag: "{{ calico_rr_image_tag }}"
     sha256: "{{ calico_rr_digest_checksum|default(None) }}"
     enabled: "{{ peer_with_calico_rr is defined and peer_with_calico_rr}} and kube_network_plugin == 'calico'"
   weave_kube:
     container: true
+    name: "{{ weave_kube_private_name }}"
+    publicrepo: "{{ weave_kube_public_repo }}"
     repo: "{{ weave_kube_image_repo }}"
     tag: "{{ weave_kube_image_tag }}"
     sha256: "{{ weave_kube_digest_checksum|default(None) }}"
     enabled: "{{ kube_network_plugin == 'weave' }}"
   weave_npc:
     container: true
+    name: "{{ weave_npc_private_name }}"
+    publicrepo: "{{ weave_npc_public_repo }}"
     repo: "{{ weave_npc_image_repo }}"
     tag: "{{ weave_npc_image_tag }}"
     sha256: "{{ weave_npc_digest_checksum|default(None) }}"
     enabled: "{{ kube_network_plugin == 'weave' }}"
   pod_infra:
     container: true
+    name: "{{ pod_infra_private_name }}"
+    publicrepo: "{{ pod_infra_public_repo }}"
     repo: "{{ pod_infra_image_repo }}"
     tag: "{{ pod_infra_image_tag }}"
     sha256: "{{ pod_infra_digest_checksum|default(None) }}"
   nginx:
     container: true
+    name: "{{ nginx_private_name }}"
+    publicrepo: "{{ nginx_public_repo }}"
     repo: "{{ nginx_image_repo }}"
     tag: "{{ nginx_image_tag }}"
     sha256: "{{ nginx_digest_checksum|default(None) }}"
   dnsmasq:
     container: true
+    name: "{{ dnsmasq_private_name }}"
+    publicrepo: "{{ dnsmasq_public_repo }}"
     repo: "{{ dnsmasq_image_repo }}"
     tag: "{{ dnsmasq_image_tag }}"
     sha256: "{{ dnsmasq_digest_checksum|default(None) }}"
   kubednsmasq:
     container: true
+    name: "{{ kubednsmasq_private_name }}"
+    publicrepo: "{{ kubednsmasq_public_repo }}"
     repo: "{{ kubednsmasq_image_repo }}"
     tag: "{{ kubednsmasq_image_tag }}"
     sha256: "{{ kubednsmasq_digest_checksum|default(None) }}"
   kubedns:
     container: true
+    name: "{{ kubedns_private_name }}"
+    publicrepo: "{{ kubedns_public_repo }}"
     repo: "{{ kubedns_image_repo }}"
     tag: "{{ kubedns_image_tag }}"
     sha256: "{{ kubedns_digest_checksum|default(None) }}"
   testbox:
     container: true
+    name: "{{ testbox_private_name }}"
+    publicrepo: "{{ testbox_public_repo }}"
     repo: "{{ test_image_repo }}"
     tag: "{{ test_image_tag }}"
     sha256: "{{ testbox_digest_checksum|default(None) }}"
   exechealthz:
     container: true
+    name: "{{ exechealthz_private_name }}"
+    publicrepo: "{{ exechealthz_public_repo }}"
     repo: "{{ exechealthz_image_repo }}"
     tag: "{{ exechealthz_image_tag }}"
     sha256: "{{ exechealthz_digest_checksum|default(None) }}"
   elasticsearch:
     container: true
+    name: "{{ elasticsearch_private_name }}"
+    publicrepo: "{{ elasticsearch_public_repo }}"
     repo: "{{ elasticsearch_image_repo }}"
     tag: "{{ elasticsearch_image_tag }}"
     sha256: "{{ elasticsearch_digest_checksum|default(None) }}"
   fluentd:
     container: true
+    name: "{{ fluentd_private_name }}"
+    publicrepo: "{{ fluentd_public_repo }}"
     repo: "{{ fluentd_image_repo }}"
     tag: "{{ fluentd_image_tag }}"
     sha256: "{{ fluentd_digest_checksum|default(None) }}"
   kibana:
     container: true
+    name: "{{ kibana_private_name }}"
+    publicrepo: "{{ kibana_public_repo }}"
     repo: "{{ kibana_image_repo }}"
     tag: "{{ kibana_image_tag }}"
     sha256: "{{ kibana_digest_checksum|default(None) }}"
   helm:
     container: true
+    name: "{{ helm_private_name }}"
+    publicrepo: "{{ helm_public_repo }}"
     repo: "{{ helm_image_repo }}"
     tag: "{{ helm_image_tag }}"
     sha256: "{{ helm_digest_checksum|default(None) }}"
   tiller:
     container: true
+    name: "{{ tiller_private_name }}"
+    publicrepo: "{{ tiller_public_repo }}"
     repo: "{{ tiller_image_repo }}"
     tag: "{{ tiller_image_tag }}"
     sha256: "{{ tiller_digest_checksum|default(None) }}"

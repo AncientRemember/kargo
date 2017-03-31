@@ -17,3 +17,4 @@ temp
 **/*.sw[pon]
 vagrant/
 /.project
+/.pydevproject

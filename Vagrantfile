@@ -16,7 +16,7 @@ $vm_cpus = 1
 $shared_folders = {}
 $forwarded_ports = {}
 $subnet = "172.17.8"
-$box = "bento/ubuntu-16.04"
+$box = "centos/7"
 # The first three nodes are etcd servers
 $etcd_instances = $num_instances
 # The first two nodes are masters
@@ -102,7 +102,7 @@ Vagrant.configure("2") do |config|
         "download_run_once": "False",
         # Override the default 'calico' with flannel.
         # inventory/group_vars/k8s-cluster.yml
-        "kube_network_plugin": "flannel",
+        "kube_network_plugin": "weave",
       }
       config.vm.network :private_network, ip: ip
 
