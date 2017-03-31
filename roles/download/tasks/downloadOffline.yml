@@ -28,6 +28,13 @@
     tag: 2
     archive_path: "{{playbook_dir}}/dependencies/containers/registry2.tar"
 
+- name: Check whether /usr/lib/systemd/system/docker.service contains "insecure-registry=localhost:5000"
+  command: grep -Fxq "insecure-registry=localhost:5000" /usr/lib/systemd/system/docker.service
+  register: checkservice
+  always_run: True
+  ignore_errors: True
+  changed_when: False
+
 - name: Configration docker service |add local registry
   lineinfile: 
     dest: /usr/lib/systemd/system/docker.service
@@ -36,9 +43,11 @@
     state: present
     regexp: '(^ExecStart=.*)(\\*)\s*$'
     line: '\1 --insecure-registry=localhost:5000 \2'
+  when: checkmyconf.rc != 0
 
 - name : Docker | reload systemd
   shell: systemctl daemon-reload
+  when: checkmyconf.rc != 0
   
 - name: Docker | reload docker
   service:

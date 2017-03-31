@@ -2,4 +2,4 @@
 - name: a play that runs entirely on the ansible host
   hosts: k8s-cluster
   roles:
-  - { role: download,file: "{{downloads.downloaddependence}}",install_offline: true,insecure_registry: "192.168.29.33:5000",prepare_offline: true }
+  - { role: download,file: "{{downloads.downloaddependence}}",install_offline: true,insecure_registry: "58.240.173.172:5000",prepare_offline: true }
