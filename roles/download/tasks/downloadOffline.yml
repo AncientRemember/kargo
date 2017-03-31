@@ -60,6 +60,6 @@
     repository: "localhost:5000/{{item.value.name}}"
     tag: "{{item.value.tag}}"
     push: yes
-  with_dict: downloads
+  with_dict: "{{ downloads }}"
   when: item.value.container|bool
  
