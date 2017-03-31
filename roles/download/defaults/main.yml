@@ -203,7 +203,7 @@ downloads:
   netcheck_agent:
     container: true
     name: "{{ netcheck_agent_private_name }}"
-    publicrepo: {{ netcheck_agent_public_repo }}
+    publicrepo: "{{ netcheck_agent_public_repo }}"
     repo: "{{ netcheck_agent_img_repo }}"
     tag: "{{ netcheck_tag }}"
     sha256: "{{ netcheck_agent_digest_checksum|default(None) }}"
