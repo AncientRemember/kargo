@@ -30,7 +30,7 @@
 
 - name: Configration docker service |add local registry
   lineinfile: 
-    dest: /etc/systemd/system/docker.service
+    dest: /usr/lib/systemd/system/docker.service
     backup: True
     state: present
     regexp: '(^ExecStart=.*)(\\*)\s*$'
