@@ -1,5 +1,4 @@
 ---
-
 - name: prepare offline docker images
   docker_image:
     name: "{{ insecure_registry }}/{{item.value.name}}"
@@ -16,7 +15,7 @@
   register: publicregistry
   notify:
     - Tag and push to public docker registry
-  when: localregistry.failed|bool
+  when: localregistry.failed
     
 - name: Tag and push to private docker registry
   docker_image:
@@ -24,7 +23,7 @@
     repository: "localhost:5000/{{item.value.name}}"
     tag: "{{item.value.tag}}"
     push: yes
-  when: not localregistry.failed|bool
+  when: not localregistry.failed
 
 - name: Tag and push to public docker registry
   docker_image:
@@ -32,4 +31,4 @@
     repository: "localhost:5000/{{item.value.name}}"
     tag: "{{item.value.tag}}"
     push: yes
-  when: localregistry.failed|bool and publicregistry.returned == 'success'
+  when: localregistry.failed and not publicregistry.failed
