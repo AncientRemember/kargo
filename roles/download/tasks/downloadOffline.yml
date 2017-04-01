@@ -60,6 +60,7 @@
       - "{{playbook_dir}}/dependencies/registry:/var/lib/registry"
     ports:
      - "5000:5000"
+
 - block: 
      - name: prepare offline docker images
        docker_image:
