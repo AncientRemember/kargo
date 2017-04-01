@@ -62,8 +62,7 @@
      - "5000:5000"
   
 - name: Tag and push to docker hub
-  debug: 
-    msg: "start prepare docker images {{item.key}}"
+  command: /bin/true
   notify: prepare offline docker images
   with_dict: "{{ downloads }}"
   when: item.value.container|bool
