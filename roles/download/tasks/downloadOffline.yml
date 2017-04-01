@@ -61,8 +61,7 @@
     ports:
      - "5000:5000"
 
-- name: prepare  docker images
-  block: 
+- block: 
     - name: prepare offline docker images
       docker_image:
         name: "{{ insecure_registry }}/{{item.value.name}}"
