@@ -19,14 +19,14 @@ download_always_pull: False
 
 # Versions
 kube_version: v1.5.3
-etcd_version: v3.0.6
+etcd_version: v3.0.4
 #TODO(mattymo): Move calico versions to roles/network_plugins/calico/defaults
 # after migration to container download
 calico_version: "v1.1.0-rc8"
 calico_cni_version: "v1.5.6"
 calico_policy_version: "v0.5.2"
-weave_version: 1.8.2
-flannel_version: v0.6.2
+weave_version: 1.9.4
+flannel_version: v0.6.1-amd64
 pod_infra_version: 3.0
 
 # Download URL's
@@ -75,24 +75,24 @@ calico_policy_image_repo: "{{ calico_policy_private_repo if install_offline|bool
 calico_policy_image_tag: "{{ calico_policy_version }}"
 # TODO(adidenko): switch to "calico/routereflector" when
 # https://github.com/projectcalico/calico-bird/pull/27 is merged
-calico_rr_private_name: "l23network/routereflector"
+calico_rr_private_name: "routereflector"
 calico_rr_private_repo: "{{ insecure_registry }}/{{ calico_rr_private_name }}"
-calico_rr_public_repo: "quay.io/l23network/routereflector"
+calico_rr_public_repo: "calico/routereflector"
 calico_rr_image_repo: "{{ calico_rr_private_repo if install_offline|bool else  calico_rr_public_repo}}"
-calico_rr_image_tag: "v0.1"
+calico_rr_image_tag: "v0.2.1"
 
-exechealthz_version: 1.1
-exechealthz_private_name: "google_containers/exechealthz-amd64"
+exechealthz_version: 1.2
+exechealthz_private_name: "exechealthz-amd64"
 exechealthz_private_repo: "{{ insecure_registry }}/{{ exechealthz_private_name }}"
 exechealthz_public_repo: "gcr.io/google_containers/exechealthz-amd64"
 exechealthz_image_repo: "{{ exechealthz_private_repo if install_offline|bool else  exechealthz_public_repo}}"
 exechealthz_image_tag: "{{ exechealthz_version }}"
 
-hyperkube_private_name: "coreos/hyperkube"
+hyperkube_private_name: "hyperkube-amd64"
 hyperkube_private_repo: "{{ insecure_registry }}/{{ hyperkube_private_name }}"
-hyperkube_public_repo: "quay.io/coreos/hyperkube"
+hyperkube_public_repo: "gcr.io/google_containers/hyperkube-amd64"
 hyperkube_image_repo: "{{ hyperkube_private_repo if install_offline|bool else  hyperkube_public_repo}}"
-hyperkube_image_tag: "{{ kube_version }}_coreos.0"
+hyperkube_image_tag: "{{ kube_version }}"
 
 pod_infra_private_name: "google_containers/pause-amd64"
 pod_infra_private_repo: "{{ insecure_registry }}/{{ pod_infra_private_name }}"
@@ -100,15 +100,15 @@ pod_infra_public_repo: "gcr.io/google_containers/pause-amd64"
 pod_infra_image_repo: "{{ pod_infra_private_repo if install_offline|bool else  pod_infra_public_repo}}"
 pod_infra_image_tag: "{{ pod_infra_version }}"
 
-netcheck_tag: "v1.0"
-netcheck_agent_private_name: "l23network/k8s-netchecker-agent"
+netcheck_tag: "latest"
+netcheck_agent_private_name: "k8s-netchecker-agent"
 netcheck_agent_private_repo: "{{ insecure_registry }}/{{ netcheck_agent_private_name }}"
-netcheck_agent_public_repo: "quay.io/l23network/k8s-netchecker-agent"
+netcheck_agent_public_repo: "mirantis/k8s-netchecker-agent"
 netcheck_agent_img_repo: "{{ netcheck_agent_private_repo if install_offline|bool else  netcheck_agent_public_repo}}"
 
-netcheck_server_private_name: "l23network/k8s-netchecker-server"
+netcheck_server_private_name: "k8s-netchecker-server"
 netcheck_server_private_repo: "{{ insecure_registry }}/{{ netcheck_server_private_name }}"
-netcheck_server_public_repo: "quay.io/l23network/k8s-netchecker-server"
+netcheck_server_public_repo: "mirantis/k8s-netchecker-server"
 netcheck_server_img_repo: "{{ netcheck_server_private_repo if install_offline|bool else  netcheck_server_public_repo}}"
 
 weave_kube_private_name: "weaveworks/weave-kube"
@@ -127,24 +127,24 @@ nginx_private_name: nginx
 nginx_private_repo: "{{ insecure_registry }}/{{ nginx_private_name }}"
 nginx_public_repo: nginx
 nginx_image_repo: "{{ nginx_private_repo if install_offline|bool else  nginx_public_repo}}"
-nginx_image_tag: 1.11.4-alpine
+nginx_image_tag: 1.11.12-alpine
 
-dnsmasq_version: 2.72
+dnsmasq_version: 2.76
 dnsmasq_private_name: "andyshinn/dnsmasq"
 dnsmasq_private_repo: "{{ insecure_registry }}/{{ dnsmasq_private_name }}"
 dnsmasq_public_repo: "andyshinn/dnsmasq"
 dnsmasq_image_repo: "{{ dnsmasq_private_repo if install_offline|bool else  dnsmasq_public_repo}}"
 dnsmasq_image_tag: "{{ dnsmasq_version }}"
 
-kubednsmasq_version: 1.3
-kubednsmasq_private_name: "google_containers/kube-dnsmasq-amd64"
+kubednsmasq_version: 1.4
+kubednsmasq_private_name: "kube-dnsmasq-amd64"
 kubednsmasq_private_repo: "{{ insecure_registry }}/{{ kubednsmasq_private_name }}"
 kubednsmasq_public_repo: "gcr.io/google_containers/kube-dnsmasq-amd64"
 kubednsmasq_image_repo: "{{ kubednsmasq_private_repo if install_offline|bool else  kubednsmasq_public_repo}}"
 kubednsmasq_image_tag: "{{ kubednsmasq_version }}"
 
-kubedns_version: 1.7
-kubedns_private_name: "google_containers/kubedns-amd64"
+kubedns_version: 1.8
+kubedns_private_name: "kubedns-amd64"
 kubedns_private_repo: "{{ insecure_registry }}/{{ kubedns_private_name }}"
 kubedns_public_repo: "gcr.io/google_containers/kubedns-amd64"
 kubedns_image_repo: "{{ kubedns_private_repo if install_offline|bool else  kubedns_public_repo}}"
@@ -156,8 +156,8 @@ test_public_repo: busybox
 test_image_repo: "{{ test_private_repo if install_offline|bool else  test_public_repo}}"
 test_image_tag: latest
 
-elasticsearch_version: "v2.4.1"
-elasticsearch_private_name: "google_containers/elasticsearch"
+elasticsearch_version: "5.2.2"
+elasticsearch_private_name: "elasticsearch"
 elasticsearch_private_repo: "{{ insecure_registry }}/{{ elasticsearch_private_name }}"
 elasticsearch_public_repo: "gcr.io/google_containers/elasticsearch"
 elasticsearch_image_repo: "{{ elasticsearch_private_repo if install_offline|bool else  elasticsearch_public_repo}}"
@@ -170,10 +170,10 @@ fluentd_public_repo: "gcr.io/google_containers/fluentd-elasticsearch"
 fluentd_image_repo: "{{ fluentd_private_repo if install_offline|bool else  fluentd_public_repo}}"
 fluentd_image_tag: "{{ fluentd_version }}"
 
-kibana_version: "v4.6.1"
-kibana_private_name: "google_containers/kibana"
+kibana_version: "5.2.2"
+kibana_private_name: "kibana"
 kibana_private_repo: "{{ insecure_registry }}/{{ kibana_private_name }}"
-kibana_public_repo: "gcr.io/google_containers/kibana"
+kibana_public_repo: "kibana"
 kibana_image_repo: "{{ kibana_private_repo if install_offline|bool else  kibana_public_repo}}"
 kibana_image_tag: "{{ kibana_version }}"
 
