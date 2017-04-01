@@ -4,25 +4,25 @@
     tag: "{{item.value.tag}}"
   register: localregistry
   ignore_errors: yes
-- debug: msg="private registry has the images? {{localregistry.failed}}"
+- debug: msg="pull form private registry  {{localregistry.returned}}"
 - name: download from pulibc repo
   docker_image:
     name: "{{item.value.publicrepo}}"
     tag: "{{item.value.tag}}"
   register: publicregistry
   ignore_errors: yes
-  when: localregistry.failed
+  when: localregistry.returned =='success'
 - name: Tag and push to private docker registry
   docker_image:
     name: "{{ insecure_registry }}/{{item.value.name}}"
     repository: "localhost:5000/{{item.value.name}}"
     tag: "{{item.value.tag}}"
     push: yes
-  when: not localregistry.failed
+  when: localregistry.returned !='success'
 - name: Tag and push to public docker registry
   docker_image:
     name: "{{item.value.publicrepo}}"
     repository: "localhost:5000/{{item.value.name}}"
     tag: "{{item.value.tag}}"
     push: yes
-  when: localregistry.failed and not publicregistry.failed
+  when: localregistry.returned !='success' and publicregistry.returned =='success'
