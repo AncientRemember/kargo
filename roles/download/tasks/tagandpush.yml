@@ -13,7 +13,7 @@
     tag: "{{downloaditem.value.tag}}"
   register: publicregistry
   ignore_errors: yes
-  when: localregistry.returned =='success'
+  when: localregistry.failed
 
 - name: Tag and push to private docker registry
   docker_image:
@@ -21,7 +21,7 @@
     repository: "localhost:5000/{{downloaditem.value.name}}"
     tag: "{{downloaditem.value.tag}}"
     push: yes
-  when: localregistry.returned !='success'
+  when: not localregistry.failed
   
 - name: Tag and push to public docker registry
   docker_image:
@@ -29,4 +29,4 @@
     repository: "localhost:5000/{{downloaditem.value.name}}"
     tag: "{{downloaditem.value.tag}}"
     push: yes
-  when: localregistry.returned !='success' and publicregistry.returned =='success'
+  when: localregistry.failed and not publicregistry.failed
