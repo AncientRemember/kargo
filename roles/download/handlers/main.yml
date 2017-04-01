@@ -7,7 +7,7 @@
   register: localregistry
   notify:
     - download from pulibc repo
-    - etcd | reload systemd
+    - Tag and push to private docker registry
 
 - name: download from pulibc repo
   docker_image:
@@ -26,9 +26,9 @@
     push: yes
   when: not localregistry.failed|bool
 
-- name: Tag and push to private docker registry
+- name: Tag and push to public docker registry
   docker_image:
-    name: "{{ insecure_registry }}/{{item.value.name}}"
+    name: "{{item.value.publicrepo}}"
     repository: "localhost:5000/{{item.value.name}}"
     tag: "{{item.value.tag}}"
     push: yes
