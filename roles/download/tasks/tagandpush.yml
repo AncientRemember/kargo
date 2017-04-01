@@ -1,0 +1,26 @@
+- name: prepare offline docker images
+  docker_image:
+    name: "{{ insecure_registry }}/{{item.value.name}}"
+    tag: "{{item.value.tag}}"
+  register: localregistry
+- debug: msg="private registry has the images? {{localregistry.failed}}"
+- name: download from pulibc repo
+  docker_image:
+    name: "{{item.value.publicrepo}}"
+    tag: "{{item.value.tag}}"
+  register: publicregistry
+  when: localregistry.failed
+- name: Tag and push to private docker registry
+  docker_image:
+    name: "{{ insecure_registry }}/{{item.value.name}}"
+    repository: "localhost:5000/{{item.value.name}}"
+    tag: "{{item.value.tag}}"
+    push: yes
+  when: not localregistry.failed
+- name: Tag and push to public docker registry
+  docker_image:
+    name: "{{item.value.publicrepo}}"
+    repository: "localhost:5000/{{item.value.name}}"
+    tag: "{{item.value.tag}}"
+    push: yes
+  when: localregistry.failed and not publicregistry.failed
