@@ -90,4 +90,5 @@
         push: yes
       when: localregistry.failed and not publicregistry.failed
   with_dict: "{{ downloads }}"
+  when: item.value.container|bool
  
