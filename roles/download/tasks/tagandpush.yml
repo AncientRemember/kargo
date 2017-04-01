@@ -4,8 +4,6 @@
     tag: "{{downloaditem.value.tag}}"
   register: localregistry
   ignore_errors: yes
-  
-- debug: msg="pull form private registry  {{localregistry.returned}}"
 
 - name: download from pulibc repo
   docker_image:
@@ -22,7 +20,7 @@
     tag: "{{downloaditem.value.tag}}"
     push: yes
   when: not localregistry.failed
-  
+ 
 - name: Tag and push to public docker registry
   docker_image:
     name: "{{downloaditem.value.publicrepo}}"
