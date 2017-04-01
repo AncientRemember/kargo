@@ -60,21 +60,11 @@
       - "{{playbook_dir}}/dependencies/registry:/var/lib/registry"
     ports:
      - "5000:5000"
-- name: Tag and push to docker hub
-  docker_image:
-    name: "{{item.value.publicrepo}}"
-    repository: "{{ insecure_registry }}/{{item.value.name}}"
-    tag: "{{item.value.tag}}"
-    push: yes
-  with_dict: "{{ downloads }}"
-  when: item.value.container|bool
   
 - name: Tag and push to docker hub
-  docker_image:
-    name: "{{item.value.repo}}"
-    repository: "localhost:5000/{{item.value.name}}"
-    tag: "{{item.value.tag}}"
-    push: yes
+  debug: 
+    msg: "start prepare docker images {{item.key}}"
+  notify: prepare offline docker images
   with_dict: "{{ downloads }}"
   when: item.value.container|bool
  
