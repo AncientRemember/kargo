@@ -62,5 +62,6 @@
      - "5000:5000"
 
 - include: tagandpush.yml
+  ignore_errors: yes
   with_dict: "{{ downloads }}"
   when: item.value.container|bool
