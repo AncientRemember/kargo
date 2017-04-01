@@ -1,28 +1,32 @@
 - name: prepare offline docker images
   docker_image:
-    name: "{{ insecure_registry }}/{{item.value.name}}"
-    tag: "{{item.value.tag}}"
+    name: "{{ insecure_registry }}/{{downloaditem.value.name}}"
+    tag: "{{downloaditem.value.tag}}"
   register: localregistry
   ignore_errors: yes
+  
 - debug: msg="pull form private registry  {{localregistry.returned}}"
+
 - name: download from pulibc repo
   docker_image:
-    name: "{{item.value.publicrepo}}"
-    tag: "{{item.value.tag}}"
+    name: "{{downloaditem.value.publicrepo}}"
+    tag: "{{downloaditem.value.tag}}"
   register: publicregistry
   ignore_errors: yes
   when: localregistry.returned =='success'
+
 - name: Tag and push to private docker registry
   docker_image:
-    name: "{{ insecure_registry }}/{{item.value.name}}"
-    repository: "localhost:5000/{{item.value.name}}"
-    tag: "{{item.value.tag}}"
+    name: "{{ insecure_registry }}/{{downloaditem.value.name}}"
+    repository: "localhost:5000/{{downloaditem.value.name}}"
+    tag: "{{downloaditem.value.tag}}"
     push: yes
   when: localregistry.returned !='success'
+  
 - name: Tag and push to public docker registry
   docker_image:
-    name: "{{item.value.publicrepo}}"
-    repository: "localhost:5000/{{item.value.name}}"
-    tag: "{{item.value.tag}}"
+    name: "{{downloaditem.value.publicrepo}}"
+    repository: "localhost:5000/{{downloaditem.value.name}}"
+    tag: "{{downloaditem.value.tag}}"
     push: yes
   when: localregistry.returned !='success' and publicregistry.returned =='success'
