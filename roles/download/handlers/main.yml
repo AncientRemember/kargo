@@ -5,8 +5,12 @@
     tag: "{{item.value.tag}}"
   register: localregistry
   notify:
+    - debug result
     - download from pulibc repo
     - Tag and push to private docker registry
+- name: debug result
+  debug: 
+    msg: "private registry has the images? {{localregistry.failed}}"
 
 - name: download from pulibc repo
   docker_image:
