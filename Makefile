@@ -37,5 +37,13 @@ achive:
 	ansible-playbook -i ./inventory/local-tests.cfg
 	tar -zcf kargo.tar.gz ../kargo
 test:
-	yum install -y dkms VirtualBox-5.1.x86_64
+	installed=$(yum list installed | grep dkms|wc -l)
+	ifneq (dkmsinstalled,'1')
+		yum install -y dkms
+	endif
+	installed=$(yum list installed | grep VirtualBox|wc -l)
+	ifneq (dkmsinstalled,'1')
+		$(shell cd /etc/yum.repos.d & wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo )
+		yum install -y VirtualBox-5.1.x86_64
+	endif
 	vagrant up
