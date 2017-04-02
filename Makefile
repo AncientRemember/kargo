@@ -31,6 +31,8 @@ installbase:
 	yum -y install python
 	yum -y install  ansible
 	yum -y install  docker
+	systemctl enable docker
+	systemctl start docker
 	docker load < ./dependencies/containers/registry2.tar
 	docker run -d -p 5000:5000 -v registry:/var/lib/registry --name registry registry:2
 deploy:
