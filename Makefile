@@ -37,4 +37,5 @@ achive:
 	ansible-playbook -i ./inventory/local-tests.cfg
 	tar -zcf kargo.tar.gz ../kargo
 test:
+	yum install -y dkms VirtualBox-5.1.x86_64
 	vagrant up
