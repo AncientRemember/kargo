@@ -13,16 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# 第一步: make offline install package 下载基础安装包及docker镜像,下载的文件存在denpendencies
+# 第一步: make achive 下载基础安装包及docker镜像,下载的文件存在denpendencies
 # 第三步: 将离线安装包复制到目标主机
 # 第四步: 编辑inventory/hosts 参考inventory.example，如果是vagrant测试可以跳过
 # 第五步: make installbase 安装ansible和docker
 # 第六步: make deploy,如果是vagrant测试 make vagrant
 
-.PHONY:	offlinepkg prepare deploy vagrant
-
-TAG = v4.6.1-1
-PREFIX = gcr.io/google_containers
+.PHONY:	achive prepare deploy test
 
 prepare:
 	yum -y update
@@ -36,8 +33,8 @@ prepare:
 	docker run -d -p 5000:5000 -v registry:/var/lib/registry --name registry registry:2
 deploy:
 	ansible-playbook -i ./inventory/hosts
-offlinepkg: 
+achive: 
 	ansible-playbook -i ./inventory/local-tests.cfg
 	tar -zcf kargo.tar.gz ../kargo
-vagrant:
+test:
 	vagrant up
