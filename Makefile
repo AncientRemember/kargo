@@ -36,11 +36,11 @@ deploy:
 achive: 
 	ansible-playbook -i ./inventory/local-tests.cfg
 	tar -zcf kargo.tar.gz ../kargo
-test:
-ifneq $(shell yum list installed | grep dkms|wc -l) 1
+test:	
+ifneq($(shell yum list installed | grep dkms|wc -l),1)
 	yum install -y dkms
 endif
-ifneq $(shell yum list installed | grep VirtualBox|wc -l) 1
+ifneq($(shell yum list installed | grep VirtualBox|wc -l),1)
 	wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -o /etc/yum.repos.d/virtualbox.repo 
 	yum install -y VirtualBox-5.1.x86_64
 endif
