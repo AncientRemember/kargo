@@ -42,7 +42,7 @@ test:
 		yum install -y dkms
 	endif
 	installed=$(yum list installed | grep VirtualBox|wc -l)
-	ifneq ($(installed),'1')
+	ifneq ($(installed),1)
 		wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -o /etc/yum.repos.d/virtualbox.repo 
 		yum install -y VirtualBox-5.1.x86_64
 	endif
