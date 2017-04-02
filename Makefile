@@ -36,8 +36,9 @@ deploy:
 achive: 
 	ansible-playbook -i ./inventory/local-tests.cfg
 	tar -zcf kargo.tar.gz ../kargo
-test:	
-ifneq($(shell yum list installed | grep dkms|wc -l),1)
+test:
+	installed=$(shell yum list installed | grep dkms|wc -l)
+ifneq($(installed),1)
 	yum install -y dkms
 endif
 ifneq($(shell yum list installed | grep VirtualBox|wc -l),1)
