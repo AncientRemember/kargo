@@ -31,7 +31,7 @@ installbase:
 	yum -y install python
 	yum -y install  ansible
 	yum -y install  docker
-	docker load < ./dependencies/containers/registry.tar
+	docker load < ./dependencies/containers/registry2.tar
 	docker run -d -p 5000:5000 -v registry:/var/lib/registry --name registry registry:2
 deploy:
 	ansible-playbook -i ./inventory/hosts
