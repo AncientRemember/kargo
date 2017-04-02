@@ -26,9 +26,10 @@ TAG = v4.6.1-1
 PREFIX = gcr.io/google_containers
 
 installbase:
+	yum -y update
+	yum install epel-release
 	yum -y install python
-	easy_install pip
-	pip install  ansible
+	yum -y install  ansible
 	yum -y install  docker
 	docker load < ./dependencies/containers/registry.tar
 	docker run -d -p 5000:5000 -v registry:/var/lib/registry --name registry registry:2
