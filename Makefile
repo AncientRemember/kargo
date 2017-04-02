@@ -38,12 +38,12 @@ achive:
 	tar -zcf kargo.tar.gz ../kargo
 test:
 	installed=$(yum list installed | grep dkms|wc -l)
-	ifneq (dkmsinstalled,'1')
+	ifneq (installed,'1')
 		yum install -y dkms
 	endif
 	installed=$(yum list installed | grep VirtualBox|wc -l)
 	ifneq (installed,'1')
-		$(shell cd /etc/yum.repos.d & wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo )
+		wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -o /etc/yum.repos.d/virtualbox.repo 
 		yum install -y VirtualBox-5.1.x86_64
 	endif
 	vagrant up
