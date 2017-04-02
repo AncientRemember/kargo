@@ -13,19 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# 第一步: make download 下载基础安装包及docker镜像,下载的文件存在denpendencies
-# 第二步: tar -zcf kargo.tar.gz kargo 打成离线安装包
+# 第一步: make offline install package 下载基础安装包及docker镜像,下载的文件存在denpendencies
 # 第三步: 将离线安装包复制到目标主机
 # 第四步: 编辑inventory/hosts 参考inventory.example，如果是vagrant测试可以跳过
 # 第五步: make installbase 安装ansible和docker
 # 第六步: make deploy,如果是vagrant测试 make vagrant
 
-.PHONY:	download installbase deploy vagrant
+.PHONY:	offlinepkg prepare deploy vagrant
 
 TAG = v4.6.1-1
 PREFIX = gcr.io/google_containers
 
-installbase:
+prepare:
 	yum -y update
 	yum install epel-release
 	yum -y install python
@@ -37,7 +36,8 @@ installbase:
 	docker run -d -p 5000:5000 -v registry:/var/lib/registry --name registry registry:2
 deploy:
 	ansible-playbook -i ./inventory/hosts
-download: 
+offlinepkg: 
 	ansible-playbook -i ./inventory/local-tests.cfg
+	tar -zcf kargo.tar.gz ../kargo
 vagrant:
 	vagrant up
