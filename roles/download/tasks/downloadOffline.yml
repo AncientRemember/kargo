@@ -59,7 +59,7 @@
     volumes:
       - "{{playbook_dir}}/dependencies/registry:/var/lib/registry"
     ports:
-     - "5000:5000"
+      - "5000:5000"
 
 - include: tagandpush.yml
   vars: 

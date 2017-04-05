@@ -6,8 +6,7 @@
     push: yes
   register: localregistry
   ignore_errors: yes
-
-
+  
 - name: "Tag and push from public to localhost docker registry {{downloaditem.value.publicrepo}} to localhost:5000/{{downloaditem.value.name}}"
   docker_image:
     name: "{{downloaditem.value.publicrepo}}"
