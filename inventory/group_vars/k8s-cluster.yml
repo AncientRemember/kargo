@@ -127,6 +127,7 @@ docker_daemon_graph: "/var/lib/docker"
 
 insecure_registry: 192.168.29.20:5000
 install_offline: True
+prepare_offline: False
 docker_options: "--insecure-registry={{ insecure_registry }} --graph={{ docker_daemon_graph }}"
 docker_bin_dir: "/usr/bin"
 
