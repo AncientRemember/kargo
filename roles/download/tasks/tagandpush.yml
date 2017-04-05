@@ -31,7 +31,7 @@
     push: yes
   when: localregistry|failed
   
-- name: "Tag and push from public to private docker registry {{downloaditem.value.publicrepo}} to localhost:5000/{{downloaditem.value.name}}"
+- name: "Tag and push from public to private docker registry {{downloaditem.value.publicrepo}} to {{ insecure_registry }}/{{downloaditem.value.name}}"
   docker_image:
     name: "{{downloaditem.value.publicrepo}}"
     repository: "{{ insecure_registry }}/{{downloaditem.value.name}}"
