@@ -13,7 +13,7 @@
     repository: "localhost:5000/{{downloaditem.value.name}}"
     tag: "{{downloaditem.value.tag}}"
     push: yes
-  registry: pull_resulst
+  register: pull_resulst
   until: pull_resulst|succeeded
   retries: 4
   delay: "{{ retry_stagger | random + 3 }}"
