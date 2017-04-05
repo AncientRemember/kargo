@@ -125,7 +125,7 @@ docker_daemon_graph: "/var/lib/docker"
 ## An obvious use case is allowing insecure-registry access
 ## to self hosted registries like so:
 
-insecure_registry: "{{ hostvars[localhost]['ansible_default_ipv4']['address'] }}:5000"
+insecure_registry: 192.168.29.20:5000"
 install_offline: True
 docker_options: "--insecure-registry={{ insecure_registry }} --graph={{ docker_daemon_graph }}"
 docker_bin_dir: "/usr/bin"

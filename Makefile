@@ -16,8 +16,8 @@
 # 第一步: make achive 下载基础安装包及docker镜像,下载的文件存在denpendencies
 # 第三步: 将离线安装包复制到目标主机
 # 第四步: 编辑inventory/hosts 参考inventory.example，如果是vagrant测试可以跳过
-# 第五步: make installbase 安装ansible和docker
-# 第六步: make deploy,如果是vagrant测试 make vagrant
+# 第五步: make prepare 安装ansible和docker
+# 第六步: make deploy,如果是vagrant测试 make test
 
 .PHONY:	achive prepare deploy test
 
@@ -32,7 +32,7 @@ prepare:
 	docker load < ./dependencies/containers/registry2.tar
 	docker run -d -p 5000:5000 -v registry:/var/lib/registry --name registry registry:2
 deploy:
-	ansible-playbook -i ./inventory/hosts
+	ansible-playbook -i ./inventory/hosts --extra-vars "insecure_registry=$(shell hostname -i):5000"
 achive: 
 	ansible-playbook -i ./inventory/local-tests.cfg
 	tar -zcf kargo.tar.gz ../kargo
