@@ -32,9 +32,9 @@ prepare:
 	docker load < ./dependencies/containers/registry2.tar
 	docker run -d -p 5000:5000 -v registry:/var/lib/registry --name registry registry:2
 deploy:
-	ansible-playbook -i ./inventory/hosts
+	ansible-playbook cluster.yml -i ./inventory/hosts
 achive: 
-	ansible-playbook -i ./inventory/local-tests.cfg
+	ansible-playbook prepareoffline.yml -i ./inventory/local-tests.cfg
 	tar -zcf kargo.tar.gz ../kargo
 test:
 ifneq ($(shell yum list installed | grep dkms|wc -l),1)
