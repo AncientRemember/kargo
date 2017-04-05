@@ -32,7 +32,7 @@ prepare:
 	docker load < ./dependencies/containers/registry2.tar
 	docker run -d -p 5000:5000 -v registry:/var/lib/registry --name registry registry:2
 deploy:
-	ansible-playbook -i ./inventory/hosts --extra-vars "insecure_registry=$(shell hostname -i):5000"
+	ansible-playbook -i ./inventory/hosts
 achive: 
 	ansible-playbook -i ./inventory/local-tests.cfg
 	tar -zcf kargo.tar.gz ../kargo
