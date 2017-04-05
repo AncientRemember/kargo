@@ -38,7 +38,7 @@
     backup: True
     backrefs: True
     state: present
-    regexp: '(^ExecStart=.*)(\\*)\s*$'
+    regexp: '(^ExecStart=[^\\]*)(\\*)\s*$'
     line: '\1 --insecure-registry=localhost:5000 \2'
   when: checkservice.stdout.find('insecure-registry=localhost:5000') == -1
 
