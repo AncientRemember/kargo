@@ -23,10 +23,10 @@
 
 prepare:
 	yum -y update
-	yum install epel-release
-	yum -y install python
-	yum -y install  ansible
-	yum -y install  docker
+	yum -y install epel-release
+	yum -y install python python-pip ansible docker
+	pip install --upgrade pip
+	pip install docker-py
 	systemctl enable docker
 	systemctl start docker
 	docker load < ./dependencies/containers/registry2.tar
