@@ -35,7 +35,7 @@ deploy:
 	ansible-playbook cluster.yml -i ./inventory/hosts
 achive: 
 	ansible-playbook prepareoffline.yml -i ./inventory/local-tests.cfg
-	tar -zcf kargo.tar.gz ../kargo
+	tar -zcf kargo.tar.gz .
 test:
 ifneq ($(shell yum list installed | grep dkms|wc -l),1)
 	yum install -y dkms
