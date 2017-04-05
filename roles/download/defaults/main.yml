@@ -163,7 +163,7 @@ elasticsearch_public_repo: "gcr.io/google_containers/elasticsearch"
 elasticsearch_image_repo: "{{ elasticsearch_private_repo if install_offline|bool else  elasticsearch_public_repo}}"
 elasticsearch_image_tag: "{{ elasticsearch_version }}"
 
-fluentd_version: "1.19"
+fluentd_version: "1.22"
 fluentd_private_name: "fluentd-elasticsearch"
 fluentd_private_repo: "{{ insecure_registry }}/{{ fluentd_private_name }}"
 fluentd_public_repo: "gcr.io/google_containers/fluentd-elasticsearch"

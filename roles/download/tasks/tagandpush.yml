@@ -1,34 +1,21 @@
-- name: "prepare offline docker {{ insecure_registry }}/{{downloaditem.value.name}}"
-  docker_image:
-    name: "{{ insecure_registry }}/{{downloaditem.value.name}}"
-    tag: "{{downloaditem.value.tag}}"
-  register: localregistry
-  ignore_errors: yes
-
-- name: "download from pulibc repo {{downloaditem.value.publicrepo}}"
-  docker_image:
-    name: "{{downloaditem.value.publicrepo}}"
-    tag: "{{downloaditem.value.tag}}"
-  register: publicregistry
-  retries: 4
-  delay: "{{ retry_stagger | random + 3 }}"
-  ignore_errors: yes
-  when: localregistry|failed
-
 - name: "Tag and push from private to localhost docker registry {{ insecure_registry }}/{{downloaditem.value.name}} to localhost:5000/{{downloaditem.value.name}}"
   docker_image:
     name: "{{ insecure_registry }}/{{downloaditem.value.name}}"
     repository: "localhost:5000/{{downloaditem.value.name}}"
     tag: "{{downloaditem.value.tag}}"
     push: yes
-  when: not localregistry|failed
- 
+  register: localregistry
+  ignore_errors: yes
+
+
 - name: "Tag and push from public to localhost docker registry {{downloaditem.value.publicrepo}} to localhost:5000/{{downloaditem.value.name}}"
   docker_image:
     name: "{{downloaditem.value.publicrepo}}"
     repository: "localhost:5000/{{downloaditem.value.name}}"
     tag: "{{downloaditem.value.tag}}"
     push: yes
+  retries: 4
+  delay: "{{ retry_stagger | random + 3 }}"
   when: localregistry|failed
   
 - name: "Tag and push from public to private docker registry {{downloaditem.value.publicrepo}} to {{ insecure_registry }}/{{downloaditem.value.name}}"
