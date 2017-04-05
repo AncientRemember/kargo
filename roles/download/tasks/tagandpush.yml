@@ -10,6 +10,8 @@
     name: "{{downloaditem.value.publicrepo}}"
     tag: "{{downloaditem.value.tag}}"
   register: publicregistry
+  retries: 4
+  delay: "{{ retry_stagger | random + 3 }}"
   ignore_errors: yes
   when: localregistry|failed
 
