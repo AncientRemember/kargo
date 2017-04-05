@@ -51,7 +51,7 @@
     name: docker
     state: restarted
   when: checkservice.stdout.find('insecure-registry=localhost:5000') == -1
-   
+  
 - name: Create a registry container
   docker_container:
     name: registry

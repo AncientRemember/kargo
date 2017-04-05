@@ -6,16 +6,18 @@
     push: yes
   register: localregistry
   ignore_errors: yes
-  
+ 
 - name: "Tag and push from public to localhost docker registry {{downloaditem.value.publicrepo}} to localhost:5000/{{downloaditem.value.name}}"
   docker_image:
     name: "{{downloaditem.value.publicrepo}}"
     repository: "localhost:5000/{{downloaditem.value.name}}"
     tag: "{{downloaditem.value.tag}}"
     push: yes
+  registry: pull_resulst
+  until: pull_resulst|succeeded
   retries: 4
   delay: "{{ retry_stagger | random + 3 }}"
-  when: localregistry|failed
+  when: not localregistry|succeeded
   
 - name: "Tag and push from public to private docker registry {{downloaditem.value.publicrepo}} to {{ insecure_registry }}/{{downloaditem.value.name}}"
   docker_image:
@@ -23,4 +25,4 @@
     repository: "{{ insecure_registry }}/{{downloaditem.value.name}}"
     tag: "{{downloaditem.value.tag}}"
     push: yes
-  when: localregistry|failed
+  when: not localregistry|succeeded
