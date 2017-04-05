@@ -1,28 +1,31 @@
-- name: "Tag and push from private to localhost docker registry {{ insecure_registry }}/{{downloaditem.value.name}} to localhost:5000/{{downloaditem.value.name}}"
-  docker_image:
-    name: "{{ insecure_registry }}/{{downloaditem.value.name}}"
-    repository: "localhost:5000/{{downloaditem.value.name}}"
-    tag: "{{downloaditem.value.tag}}"
-    push: yes
+- name: Download image from private {{ insecure_registry }}/{{downloaditem.value.name}} 
+  command: "{{ docker_bin_dir }}/docker pull {{ insecure_registry }}/{{downloaditem.value.name}}:{{downloaditem.value.tag}}"
   register: localregistry
   ignore_errors: yes
- 
-- name: "Tag and push from public to localhost docker registry {{downloaditem.value.publicrepo}} to localhost:5000/{{downloaditem.value.name}}"
-  docker_image:
-    name: "{{downloaditem.value.publicrepo}}"
-    repository: "localhost:5000/{{downloaditem.value.name}}"
-    tag: "{{downloaditem.value.tag}}"
-    push: yes
-  register: pull_resulst
-  until: pull_resulst|succeeded
+  
+- name: Download image from public 
+  command: "{{ docker_bin_dir }}/docker pull {{downloaditem.value.publicrepo}}:{{downloaditem.value.tag}}"
+  register: publicregistry
+  until: publicregistry|succeeded
   retries: 4
   delay: "{{ retry_stagger | random + 3 }}"
   when: not localregistry|succeeded
+ 
+- name: "Tag private to localhost  registry {{ insecure_registry }}/{{downloaditem.value.name}}  to localhost:5000/{{downloaditem.value.name}}"
+  command: "{{ docker_bin_dir }}/docker tag {{ insecure_registry }}/{{downloaditem.value.name}}:{{downloaditem.value.tag}}  localhost:5000/{{downloaditem.value.name}}:{{downloaditem.value.tag}}"
+  when: localregistry|succeeded
   
-- name: "Tag and push from public to private docker registry {{downloaditem.value.publicrepo}} to {{ insecure_registry }}/{{downloaditem.value.name}}"
-  docker_image:
-    name: "{{downloaditem.value.publicrepo}}"
-    repository: "{{ insecure_registry }}/{{downloaditem.value.name}}"
-    tag: "{{downloaditem.value.tag}}"
-    push: yes
+- name: "Tag public to localhost  registry {{downloaditem.value.publicrepo}} to localhost:5000/{{downloaditem.value.name}}"
+  command: "{{ docker_bin_dir }}/docker tag {{downloaditem.value.publicrepo}}:{{downloaditem.value.tag}} localhost:5000/{{downloaditem.value.name}}:{{downloaditem.value.tag}}"
+  when: not localregistry|succeeded
+  
+- name: "push localhost docker registry localhost:5000/{{downloaditem.value.name}}"
+  command: "{{ docker_bin_dir }}/docker push localhost:5000/{{downloaditem.value.name}}:{{downloaditem.value.tag}}"
+  
+- name: "backup image to private registry"
+  command: "{{ docker_bin_dir }}/docker tag localhost:5000/{{downloaditem.value.name}}:{{downloaditem.value.tag}} {{ insecure_registry }}/{{downloaditem.value.name}}:{{downloaditem.value.tag}}"
+  when: not localregistry|succeeded
+  
+- name: "push image to private registry"
+  command: "{{ docker_bin_dir }}/docker push {{ insecure_registry }}/{{downloaditem.value.name}}:{{downloaditem.value.tag}}"
   when: not localregistry|succeeded
