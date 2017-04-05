@@ -13,7 +13,7 @@
   ignore_errors: yes
   when: localregistry|failed
 
-- name: "Tag and push to private docker registry {{ insecure_registry }}/{{downloaditem.value.name}} to localhost:5000/{{downloaditem.value.name}}"
+- name: "Tag and push from private to localhost docker registry {{ insecure_registry }}/{{downloaditem.value.name}} to localhost:5000/{{downloaditem.value.name}}"
   docker_image:
     name: "{{ insecure_registry }}/{{downloaditem.value.name}}"
     repository: "localhost:5000/{{downloaditem.value.name}}"
@@ -21,10 +21,18 @@
     push: yes
   when: not localregistry|failed
  
-- name: "Tag and push to public docker registry {{downloaditem.value.publicrepo}} to localhost:5000/{{downloaditem.value.name}}"
+- name: "Tag and push from public to localhost docker registry {{downloaditem.value.publicrepo}} to localhost:5000/{{downloaditem.value.name}}"
   docker_image:
     name: "{{downloaditem.value.publicrepo}}"
     repository: "localhost:5000/{{downloaditem.value.name}}"
+    tag: "{{downloaditem.value.tag}}"
+    push: yes
+  when: localregistry|failed
+  
+- name: "Tag and push from public to private docker registry {{downloaditem.value.publicrepo}} to localhost:5000/{{downloaditem.value.name}}"
+  docker_image:
+    name: "{{downloaditem.value.publicrepo}}"
+    repository: "{{ insecure_registry }}/{{downloaditem.value.name}}"
     tag: "{{downloaditem.value.tag}}"
     push: yes
   when: localregistry|failed
