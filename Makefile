@@ -17,12 +17,17 @@
 # 第1步: make common,如果是裸机,安装基本包
 # 第2步: make package 下载基础安装包及docker镜像,下载的文件存在denpendencies
 
+# 测试
+# make test
+
 # 第3步: 将离线安装包复制到目标主机
 
 # 部署目标环境
 # 第4步: 编辑inventory/hosts 参考inventory.example，如果是vagrant测试可以跳过
 # 第5步: make prepare 安装ansible和docker
 # 第6步: make deploy,如果是vagrant测试 make test
+
+
 
 .PHONY:	setup package prepare deploy test
 
