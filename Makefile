@@ -58,8 +58,8 @@ ifneq ($(shell yum list installed | grep ruby|wc -l),1)
 	yum install -y ruby
 endif
 ifneq ($(shell yum list installed | grep vagrant|wc -l),1)
-	wget https://releases.hashicorp.com/vagrant/1.9.3/vagrant_1.9.3_x86_64.rpm?_ga=1.264649551.1710466342.1490161207 -o vagrant_1.9.3_x86_64.rpm
-	yum install vagrant_1.9.3_x86_64.rpm
+	wget https://releases.hashicorp.com/vagrant/1.9.3/vagrant_1.9.3_x86_64.rpm
+	yum install -y vagrant_1.9.3_x86_64.rpm
 endif
 ifneq ($(shell yum list installed | grep VirtualBox|wc -l),1)
 	wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -o /etc/yum.repos.d/virtualbox.repo 

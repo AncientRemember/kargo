@@ -144,4 +144,4 @@ k8s_image_pull_policy: IfNotPresent
 efk_enabled: false
 
 # Helm deployment
-helm_enabled: false
+helm_enabled: true
