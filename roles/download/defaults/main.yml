@@ -445,6 +445,90 @@ downloads:
     repo: "{{ tiller_image_repo }}"
     tag: "{{ tiller_image_tag }}"
     sha256: "{{ tiller_digest_checksum|default(None) }}"
+  sss:
+    container: true
+    name: "{{ sss_private_name }}"
+    publicrepo: "{{ sss_private_repo }}"
+    repo: "{{ sss_private_repo }}"
+    tag: "{{ sss_version }}"
+    sha256: "{{ sss_digest_checksum|default(None) }}"
+  alb:
+    container: true
+    name: "{{ alb_private_name }}"
+    publicrepo: "{{ alb_private_repo }}"
+    repo: "{{ alb_private_repo }}"
+    tag: "{{ alb_version }}"
+    sha256: "{{ alb_digest_checksum|default(None) }}"
+  das:
+    container: true
+    name: "{{ das_private_name }}"
+    publicrepo: "{{ das_private_repo }}"
+    repo: "{{ das_private_repo }}"
+    tag: "{{ das_version }}"
+    sha256: "{{ das_digest_checksum|default(None) }}"
+  groupservice:
+    container: true
+    name: "{{ groupservice_private_name }}"
+    publicrepo: "{{ groupservice_private_repo }}"
+    repo: "{{ groupservice_private_repo }}"
+    tag: "{{ groupservice_version }}"
+    sha256: "{{ groupservice_digest_checksum|default(None) }}"
+  hycindexsave:
+    container: true
+    name: "{{ hycindexsave_private_name }}"
+    publicrepo: "{{ hycindexsave_private_repo }}"
+    repo: "{{ hycindexsave_private_repo }}"
+    tag: "{{ groupservice_version }}"
+    sha256: "{{ hycindexsave_digest_checksum|default(None) }}"
+  mds:
+    container: true
+    name: "{{ mds_private_name }}"
+    publicrepo: "{{ mds_private_repo }}"
+    repo: "{{ mds_private_repo }}"
+    tag: "{{ mds_version }}"
+    sha256: "{{ mds_digest_checksum|default(None) }}"
+  mdu:
+    container: true
+    name: "{{ mdu_private_name }}"
+    publicrepo: "{{ mdu_private_repo }}"
+    repo: "{{ mdu_private_repo }}"
+    tag: "{{ mdu_version }}"
+    sha256: "{{ mdu_digest_checksum|default(None) }}"
+  tas:
+    container: true
+    name: "{{ tas_private_name }}"
+    publicrepo: "{{ tas_private_repo }}"
+    repo: "{{ tas_private_repo }}"
+    tag: "{{ tas_version }}"
+    sha256: "{{ tas_digest_checksum|default(None) }}"
+  mysql:
+    container: true
+    name: "{{ mysql_private_name }}"
+    publicrepo: "{{ mysql_public_repo }}"
+    repo: "{{ mysql_image_repo }}"
+    tag: "{{ mysql_image_tag }}"
+    sha256: "{{ mysql_digest_checksum|default(None) }}"
+  nginx_ingress_controller:
+    container: true
+    name: "{{ nginx_ingress_controller_private_name }}"
+    publicrepo: "{{ nginx_ingress_controller_public_repo }}"
+    repo: "{{ nginx_ingress_controller_image_repo }}"
+    tag: "{{ nginx_ingress_controller_image_tag }}"
+    sha256: "{{ nginx_ingress_controller_digest_checksum|default(None) }}"
+  redis:
+    container: true
+    name: "{{ redis_private_name }}"
+    publicrepo: "{{ redis_public_repo }}"
+    repo: "{{ redis_image_repo }}"
+    tag: "{{ redis_image_tag }}"
+    sha256: "{{ redis_digest_checksum|default(None) }}"
+  rocketmq:
+    container: true
+    name: "{{ rocketmq_private_name }}"
+    publicrepo: "{{ rocketmq_public_repo }}"
+    repo: "{{ rocketmq_image_repo }}"
+    tag: "{{ rocketmq_image_tag }}"
+    sha256: "{{ rocketmq_digest_checksum|default(None) }}"
   downloaddependence: 
     container: false
     enabled: false
