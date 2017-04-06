@@ -62,7 +62,7 @@ ifneq ($(shell yum list installed | grep vagrant|wc -l),1)
 	yum install -y vagrant_1.9.3_x86_64.rpm
 endif
 ifneq ($(shell yum list installed | grep VirtualBox|wc -l),1)
-	wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -o /etc/yum.repos.d/virtualbox.repo
+	wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -O /etc/yum.repos.d/virtualbox.repo
 	yum install -y VirtualBox-5.1.x86_64
 endif
 	vagrant up --no-provision
