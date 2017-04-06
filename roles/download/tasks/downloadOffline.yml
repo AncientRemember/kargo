@@ -27,6 +27,10 @@
     name: registry
     tag: 2
     archive_path: "{{playbook_dir}}/dependencies/containers/registry2.tar"
+  register: pull_registry_result
+  until: pull_registry_result|succeeded
+  retries: 4
+  delay: "{{ retry_stagger | random + 3 }}"
 
 - name: Check whether /usr/lib/systemd/system/docker.service contains "insecure-registry=localhost:5000"
   command: cat /usr/lib/systemd/system/docker.service
