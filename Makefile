@@ -51,17 +51,17 @@ package:
 	ansible-playbook prepareoffline.yml -i ./inventory/local-tests.cfg
 	tar --exclude='./.vagrant' -zcf ../kargo.tar.gz .
 test:
-ifneq ($(shell yum list installed | grep dkms|wc -l),1)
+ifeq ($(shell yum list installed | grep dkms|wc -l),0)
 	yum install -y dkms
 endif
-	if [ "$(shell yum list installed | grep ruby|wc -l)" -gt '1' ] ; then \
-         yum install -y ruby;\
-	fi
-ifneq ($(shell yum list installed | grep vagrant|wc -l),1)
+ifeq ($(shell yum list installed | grep ruby|wc -l),0)
+	yum install -y ruby
+endif
+ifeq ($(shell yum list installed | grep vagrant|wc -l),0)
 	wget https://releases.hashicorp.com/vagrant/1.9.3/vagrant_1.9.3_x86_64.rpm
 	yum install -y vagrant_1.9.3_x86_64.rpm
 endif
-ifneq ($(shell yum list installed | grep VirtualBox|wc -l),1)
+ifeq ($(shell yum list installed | grep VirtualBox|wc -l),0)
 	wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -O /etc/yum.repos.d/virtualbox.repo
 	yum install -y VirtualBox-5.1.x86_64
 endif
