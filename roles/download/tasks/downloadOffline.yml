@@ -58,7 +58,7 @@
 
 - name : Docker | reload systemd
   shell: systemctl daemon-reload
-  when: checkservice.stdout.find('insecure-registry=localhost:5000') == -1
+  when: checkservice.stdout.find('insecure-registry=localhost:5000') == -1 or checkservice.stdout.find('insecure-registry={{ insecure_registry }}') == -1
   
 - name: Docker | reload docker
   service:
