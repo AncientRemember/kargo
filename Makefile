@@ -37,7 +37,7 @@ deploy:
 	ansible-playbook cluster.yml -i ./inventory/hosts
 package: 
 	ansible-playbook prepareoffline.yml -i ./inventory/local-tests.cfg
-	tar -zcf ../kargo.tar.gz .
+	tar --exclude='./.vagrant' -zcf ../kargo.tar.gz .
 test:
 ifneq ($(shell yum list installed | grep dkms|wc -l),1)
 	yum install -y dkms
