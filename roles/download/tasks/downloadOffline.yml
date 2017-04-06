@@ -46,6 +46,16 @@
     line: '\1 --insecure-registry=localhost:5000 \2'
   when: checkservice.stdout.find('insecure-registry=localhost:5000') == -1
 
+- name: "Configration docker service |add private registry {{ insecure_registry }}"
+  lineinfile: 
+    dest: /usr/lib/systemd/system/docker.service
+    backup: True
+    backrefs: True
+    state: present
+    regexp: '(^ExecStart=[^\\]*)(\\*)\s*$'
+    line: '\1 --insecure-registry={{ insecure_registry }} \2'
+  when: checkservice.stdout.find('insecure-registry={{ insecure_registry }}') == -1
+
 - name : Docker | reload systemd
   shell: systemctl daemon-reload
   when: checkservice.stdout.find('insecure-registry=localhost:5000') == -1
