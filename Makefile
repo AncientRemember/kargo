@@ -55,8 +55,8 @@ ifneq ($(shell yum list installed | grep dkms|wc -l),1)
 	yum install -y dkms
 endif
 	if [ $(shell yum list installed | grep ruby|wc -l) -gt 2 ] ; then \
-         yum install -y ruby \
-    fi
+         yum install -y ruby;\
+	fi
 ifneq ($(shell yum list installed | grep vagrant|wc -l),1)
 	wget https://releases.hashicorp.com/vagrant/1.9.3/vagrant_1.9.3_x86_64.rpm
 	yum install -y vagrant_1.9.3_x86_64.rpm
