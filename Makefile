@@ -19,7 +19,7 @@
 
 # 第3步: 将离线安装包复制到目标主机
 
-# 部署不表环境
+# 部署目标环境
 # 第4步: 编辑inventory/hosts 参考inventory.example，如果是vagrant测试可以跳过
 # 第5步: make prepare 安装ansible和docker
 # 第6步: make deploy,如果是vagrant测试 make test
