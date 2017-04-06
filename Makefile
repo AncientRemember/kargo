@@ -27,6 +27,8 @@ prepare:
 	yum -y install python python-pip ansible docker
 	pip install --upgrade pip
 	pip install docker-py
+	pip install --upgrade Jinja2
+	pip install netaddr
 	systemctl enable docker
 	systemctl start docker
 	docker load < ./dependencies/containers/registry2.tar
