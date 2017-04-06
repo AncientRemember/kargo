@@ -70,6 +70,7 @@
   docker_container:
     name: registry
     image: registry:2
+    privileged: true
     volumes:
       - "{{playbook_dir}}/dependencies/registry:/var/lib/registry"
     ports:
