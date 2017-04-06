@@ -14,7 +14,7 @@ $vm_gui = false
 $vm_memory = 1536
 $vm_cpus = 1
 $shared_folders = {}
-$forwarded_ports = {}
+$forwarded_ports = {8080 => 8080}
 $subnet = "172.17.8"
 $box = "centos/7"
 # The first three nodes are etcd servers
