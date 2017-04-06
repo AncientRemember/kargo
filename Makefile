@@ -39,6 +39,7 @@ common:
 	pip install docker-py
 	pip install --upgrade Jinja2
 	pip install netaddr
+	setenforce 0
 	systemctl enable docker
 	systemctl start docker
 prepare: common
