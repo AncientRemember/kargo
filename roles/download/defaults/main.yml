@@ -1,4 +1,6 @@
 ---
+
+
 local_release_dir: /tmp
 
 # if this is set to true will only download files once. Doesn't work
@@ -17,7 +19,78 @@ download_localhost: False
 # Always pull images if set to True. Otherwise check by the repo's tag/digest.
 download_always_pull: False
 
-# Versions
+# hyc modules
+sss_version: 0.1.2
+sss_private_name: sss
+sss_private_repo: "{{ insecure_registry }}/{{ sss_private_name }}"
+
+alb_version: 0.1-alpha
+alb_private_name: alb
+alb_private_repo: "{{ insecure_registry }}/{{ alb_private_name }}"
+
+das_version: 1.1
+das_private_name: das
+das_private_repo: "{{ insecure_registry }}/{{ das_private_name }}"
+
+groupservice_version: 1.0.1
+groupservice_private_name: groupservice
+groupservice_private_repo: "{{ insecure_registry }}/{{ groupservice_private_name }}"
+
+hycindexsave_version: 1.0.2
+hycindexsave_private_name: hycindexsave
+hycindexsave_private_repo: "{{ insecure_registry }}/{{ hycindexsave_private_name }}"
+
+mds_version: 4.0
+mds_private_name: mds
+mds_private_repo: "{{ insecure_registry }}/{{ mds_private_name }}"
+
+mdu_version: latest
+mdu_private_name: mdu
+mdu_private_repo: "{{ insecure_registry }}/{{ mdu_private_name }}"
+
+tas_version: latest
+tas_private_name: tas
+tas_private_repo: "{{ insecure_registry }}/{{ tas_private_name }}"
+
+#hyc dependencies
+
+# reference https://github.com/pires/kubernetes-elasticsearch-cluster
+elasticsearch_version: "5.2.2"
+elasticsearch_private_name: "elasticsearch"
+elasticsearch_private_repo: "{{ insecure_registry }}/{{ elasticsearch_private_name }}"
+elasticsearch_public_repo: "gcr.io/google_containers/elasticsearch"
+elasticsearch_image_repo: "{{ elasticsearch_private_repo if install_offline|bool else  elasticsearch_public_repo}}"
+elasticsearch_image_tag: "{{ elasticsearch_version }}"
+
+mysql_version: "5.7.14"
+mysql_private_name: "mysql"
+mysql_private_repo: "{{ insecure_registry }}/{{ mysql_private_name }}"
+mysql_public_repo: "mysql"
+mysql_image_repo: "{{ mysql_private_repo if install_offline|bool else  elasticsearch_public_repo}}"
+mysql_image_tag: "{{ mysql_version }}"
+# reference https://github.com/kubernetes/contrib/tree/master/ingress/controllers/nginx/examples/full
+nginx_ingress_controller_version: "0.8.3"
+nginx_ingress_controller_private_name: "nginx-ingress-controller"
+nginx_ingress_controller_private_repo: "{{ insecure_registry }}/{{ nginx_ingress_controller_private_name }}"
+nginx_ingress_controller_public_repo: "gcr.io/google_containers/nginx-ingress-controller"
+nginx_ingress_controller_image_repo: "{{ nginx_ingress_controller_private_repo if install_offline|bool else  nginx_ingress_controller_public_repo}}"
+nginx_ingress_controller_image_tag: "{{ nginx_ingress_controller_version }}"
+# reference https://github.com/kubernetes/kubernetes/tree/master/examples/storage/redis
+redis_version: "3.2.1"
+redis_private_name: "redis"
+redis_private_repo: "{{ insecure_registry }}/{{ redis_private_name }}"
+redis_public_repo: "gcr.io/google_containers/redis"
+redis_image_repo: "{{ redis_private_repo if install_offline|bool else  redis_public_repo}}"
+redis_image_tag: "{{ redis_version }}"
+
+rocketmq_version: "v3.5.8"
+rocketmq_private_name: "rocketmq"
+rocketmq_private_repo: "{{ insecure_registry }}/{{ rocketmq_private_name }}"
+rocketmq_public_repo: "{{ insecure_registry }}/{{ rocketmq_private_name }}"
+rocketmq_image_repo: "{{ rocketmq_private_repo if install_offline|bool else  rocketmq_public_repo}}"
+rocketmq_image_tag: "{{ rocketmq_version }}"
+
+#kubernetes 
 kube_version: v1.5.3
 etcd_version: v3.0.4
 #TODO(mattymo): Move calico versions to roles/network_plugins/calico/defaults
@@ -156,12 +229,6 @@ test_public_repo: busybox
 test_image_repo: "{{ test_private_repo if install_offline|bool else  test_public_repo}}"
 test_image_tag: latest
 
-elasticsearch_version: "5.2.2"
-elasticsearch_private_name: "elasticsearch"
-elasticsearch_private_repo: "{{ insecure_registry }}/{{ elasticsearch_private_name }}"
-elasticsearch_public_repo: "gcr.io/google_containers/elasticsearch"
-elasticsearch_image_repo: "{{ elasticsearch_private_repo if install_offline|bool else  elasticsearch_public_repo}}"
-elasticsearch_image_tag: "{{ elasticsearch_version }}"
 
 fluentd_version: "1.22"
 fluentd_private_name: "fluentd-elasticsearch"
