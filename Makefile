@@ -54,7 +54,7 @@ test:
 ifneq ($(shell yum list installed | grep dkms|wc -l),1)
 	yum install -y dkms
 endif
-	if [ $(shell yum list installed | grep ruby|wc -l) -gt 2 ] ; then \
+	if [ $(shell yum list installed | grep ruby|wc -l) -gt '1' ] ; then \
          yum install -y ruby;\
 	fi
 ifneq ($(shell yum list installed | grep vagrant|wc -l),1)
