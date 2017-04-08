@@ -13,7 +13,7 @@ $instance_name_prefix = "k8s"
 $vm_gui = false
 $vm_memory = 1536
 $vm_cpus = 1
-$shared_folders = {8080 => 8080}
+$shared_folders = {}
 $forwarded_ports = {}
 $subnet = "192.168.0"
 $box = "centos/7"
