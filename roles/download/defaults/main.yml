@@ -223,6 +223,13 @@ kubedns_public_repo: "gcr.io/google_containers/kubedns-amd64"
 kubedns_image_repo: "{{ kubedns_private_repo if install_offline|bool else  kubedns_public_repo}}"
 kubedns_image_tag: "{{ kubedns_version }}"
 
+autoscaler_version: 1.1.1
+autoscaler_private_name: "cluster-proportional-autoscaler-amd64"
+autoscaler_private_repo: "{{ insecure_registry }}/{{ autoscaler_private_name }}"
+autoscaler_public_repo: "gcr.io/google_containers/cluster-proportional-autoscaler-amd64"
+autoscaler_image_repo: "{{ autoscaler_private_repo if install_offline|bool else  autoscaler_public_repo}}"
+autoscaler_image_tag: "{{ autoscaler_version }}"
+
 test_private_name: busybox
 test_private_repo: "{{ insecure_registry }}/{{ test_private_name }}"
 test_public_repo: busybox
@@ -382,6 +389,13 @@ downloads:
     repo: "{{ dnsmasq_image_repo }}"
     tag: "{{ dnsmasq_image_tag }}"
     sha256: "{{ dnsmasq_digest_checksum|default(None) }}"
+  autoscaler:
+    container: true
+    name: "{{ autoscaler_private_name }}"
+    publicrepo: "{{ dnsmasq_public_repo }}"
+    repo: "{{ autoscaler_image_repo }}"
+    tag: "{{ autoscaler_image_tag }}"
+    sha256: "{{ autoscaler_digest_checksum|default(None) }}"
   kubednsmasq:
     container: true
     name: "{{ kubednsmasq_private_name }}"
