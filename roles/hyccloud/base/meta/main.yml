@@ -1,0 +1,6 @@
+dependencies:
+  - {role: hyccloud/base/ceph, tags: [hyc,base]}
+  - {role: hyccloud/base/elasticsearch, tags: [hyc,base]}
+  - {role: hyccloud/base/mysql, tags: [hyc,base]}
+  - {role: hyccloud/base/redis, tags: [hyc,base]}
+  - {role: hyccloud/base/rocketmq, tags: [hyc,base]}

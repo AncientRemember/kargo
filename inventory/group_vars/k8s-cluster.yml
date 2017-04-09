@@ -126,6 +126,12 @@ docker_daemon_graph: "/var/lib/docker"
 ## to self hosted registries like so:
 
 insecure_registry: 192.168.29.20:5000
+ceph-monitors: 192.168.29.10:6789
+ceph-pool: kube
+ceph-adminid: admin
+ceph-adminkey: QVFEazljbFk1RDROT3hBQVNVTFIxQXBKMXROT3B2cDFXbTVFL3c9PQ==
+ceph-userid: admin
+ceph-userkey: QVFEazljbFk1RDROT3hBQVNVTFIxQXBKMXROT3B2cDFXbTVFL3c9PQ==
 install_offline: True
 prepare_offline: false
 docker_options: "--insecure-registry={{ insecure_registry }} --graph={{ docker_daemon_graph }}"

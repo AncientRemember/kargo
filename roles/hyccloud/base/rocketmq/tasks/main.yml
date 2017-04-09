@@ -1,0 +1,13 @@
+- name: rocketmq | Create rocketmq manifest
+  template:
+    src: rocketmq-all.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/base/rocketmq/rocketmq-all.yml"
+  register: redis_manifest
+  when: inventory_hostname == groups['kube-master'][0]
+
+- name: rocketmq | Start rocketmq Resources
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/base/rocketmq/rocketmq-all.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]

@@ -1,0 +1,112 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: sentinel
+    role: service
+  name: redis-sentinel
+spec:
+  ports:
+    - port: 26379
+      targetPort: 26379
+  selector:
+    redis-sentinel: "true"
+
+---
+
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: redis-sentinel
+spec:
+  replicas: 2
+  selector:
+    name: redis-sentinel
+  template:
+    metadata:
+      labels:
+        name: redis-sentinel
+        redis-sentinel: "true"
+        role: sentinel
+    spec:
+      containers:
+      - name: sentinel
+        image: {{ redis_image_repo }}:{{ redis_image_tag }}
+        env:
+          - name: SENTINEL
+            value: "true"
+        ports:
+          - containerPort: 26379
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    name: redis-master
+    redis-sentinel: "true"
+    role: redis-master
+  name: redis-master
+spec:
+  containers:
+    - name: redis-master
+      image: {{ redis_image_repo }}:{{ redis_image_tag }}
+      env:
+        - name: MASTER
+          value: "true"
+      ports:
+        - containerPort: 6379
+      resources:
+        limits:
+          cpu: "0.1"
+      volumeMounts:
+        - mountPath: /redis-master-data
+          name: storage
+    - name: sentinel
+      image: {{ redis_image_repo }}:{{ redis_image_tag }}
+      env:
+        - name: SENTINEL
+          value: "true"
+      ports:
+        - containerPort: 26379
+  volumes:
+      - emptyDir:
+          medium: ""
+        name: "storage"
+
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: redis
+  labels:
+    component: redis
+    role: data
+spec:
+  serviceName: redis
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        component: elasticsearch
+        role: data
+    spec:
+      containers:
+      - name: redis
+        image: {{ redis_image_repo }}:{{ redis_image_tag }}
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - name: data
+          mountPath: /redis-master-data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+      annotations:
+        volume.beta.kubernetes.io/storage-class: slow
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 18Gi
+

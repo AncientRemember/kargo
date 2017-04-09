@@ -1,0 +1,10 @@
+dependencies:
+  - {role: hyccloud/hyc/sss, tags: [hyc,hycapp]}
+  - {role: hyccloud/hyc/groupservice, tags: [hyc,hycapp]}
+  - {role: hyccloud/hyc/hycindexsave, tags: [hyc,hycapp]}
+  - {role: hyccloud/hyc/das, tags: [hyc,hycapp]}
+  - {role: hyccloud/hyc/proxy, tags: [hyc,hycapp]}
+  - {role: hyccloud/hyc/mdx, tags: [hyc,hycapp]}
+  - {role: hyccloud/hyc/tas, tags: [hyc,hycapp]}
+  - {role: hyccloud/hyc/ingress-controller, tags: [hyc,hycapp]}
+  - {role: hyccloud/hyc/alb, tags: [hyc,hycapp]}

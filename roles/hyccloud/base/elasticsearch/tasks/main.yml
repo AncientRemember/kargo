@@ -1,0 +1,77 @@
+- name: Elasticsearch | Create elasticsearch manifest es-master
+  template:
+    src: es-master.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/base/elasticsearch/es-master.yml"
+  when: inventory_hostname == groups['kube-master'][0]
+  
+- name: Elasticsearch | Create elasticsearch resouce es-master
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/base/elasticsearch/es-master.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]
+
+- name: Elasticsearch | Create elasticsearch manifest es-discovery-svc
+  template:
+    src: es-discovery-svc.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/base/elasticsearch/es-discovery-svc.yml"
+  when: inventory_hostname == groups['kube-master'][0]
+ 
+- name: Elasticsearch | Create elasticsearch resouce es-discovery-svc
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/base/elasticsearch/es-discovery-svc.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]
+  
+- name: Elasticsearch | Create elasticsearch manifest es-data-stateful
+  template:
+    src: es-data-stateful.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/base/elasticsearch/es-data-stateful.yml"
+  when: inventory_hostname == groups['kube-master'][0]
+
+- name: Elasticsearch | Create elasticsearch resouce es-data-stateful
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/base/elasticsearch/es-data-stateful.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]
+  
+- name: Elasticsearch | Create elasticsearch manifest es-data-svc
+  template:
+    src: es-data-svc.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/base/elasticsearch/es-data-svc.yml"
+  when: inventory_hostname == groups['kube-master'][0]
+
+- name: Elasticsearch | Create elasticsearch resouce es-data-svc
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/base/elasticsearch/es-data-svc.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]
+  
+- name: Elasticsearch | Create elasticsearch manifest es-client
+  template:
+    src: es-client.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/base/elasticsearch/es-client.yml"
+  when: inventory_hostname == groups['kube-master'][0]
+  
+- name: Elasticsearch | Create elasticsearch resouce es-client
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/base/elasticsearch/es-client.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]
+  
+- name: Elasticsearch | Create elasticsearch manifest es-svc
+  template:
+    src: es-svc.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/base/elasticsearch/es-svc.yml"
+  when: inventory_hostname == groups['kube-master'][0]
+
+- name: Elasticsearch | Create elasticsearch resouce es-svc
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/base/elasticsearch/es-svc.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]

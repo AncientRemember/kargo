@@ -1,0 +1,13 @@
+- name: ingress | Create ingress manifest
+  template:
+    src: ingress-default.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/hycapp/ingress/ingress-default.yml"
+  register: redis_manifest
+  when: inventory_hostname == groups['kube-master'][0]
+
+- name: ingress | Start ingress Resources
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/hycapp/ingress/ingress-default.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]

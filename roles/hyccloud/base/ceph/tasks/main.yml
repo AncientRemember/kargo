@@ -1,0 +1,25 @@
+- name: Ceph | Create ceph storageclass in default namespace
+  template:
+    src: default-rbd-storageclass.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/base/ceph/default-rbd-storageclass.yml"
+  when: inventory_hostname == groups['kube-master'][0]
+  
+- name: Ceph | Create ceph storageclass in kube-system namespace
+  template:
+    src: es-ceph-storageclass.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/base/ceph/es-ceph-storageclass.yml"
+  when: inventory_hostname == groups['kube-master'][0]
+
+- name: Ceph | Create secret and storageclass Resources in default namespace
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/base/ceph/default-rbd-storageclass.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]
+
+- name: Ceph | Create secret and storageclass in kube-system namespace
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/base/ceph/es-ceph-storageclass.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]

@@ -1,0 +1,3 @@
+dependencies:
+  - {role: hyccloud/base, tags: [hyc,base]}
+  - {role: hyccloud/hyc, tags: [hyc,hycapp]}

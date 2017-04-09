@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  labels:
+    component: mysql
+    role: service
+spec:
+  type: NodePort
+  ports:
+    - port: 3306
+      targetPort: 3306
+      nodePort: 30336
+      name: client
+    - port: 23306
+      targetPort: 23306
+      name: gossip
+  selector:
+    role: mysql
+---
+
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: mysql
+  labels:
+    component: mysql
+    role: mysql
+spec:
+  serviceName: mysql
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: mysql
+        role: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: {{ mysql_image_repo }}:{{ mysql_image_tag }}
+        env:
+          - name:  MYSQL_ROOT_PASSWORD
+            value: Hxycjk123
+        ports:
+        - containerPort: 3306
+          name: client
+        resources:
+          limits:
+            cpu: "0.1"
+        volumeMounts:
+        - name: data
+          mountPath: /mysql-data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+      annotations:
+        volume.beta.kubernetes.io/storage-class: slow
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 18Gi
+
+
+

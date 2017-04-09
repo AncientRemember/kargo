@@ -1,0 +1,13 @@
+- name: mysql | Create mysql manifest
+  template:
+    src: mysql.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/base/mysql/mysql.yml"
+  register: redis_manifest
+  when: inventory_hostname == groups['kube-master'][0]
+
+- name: mysql | Start mysql Resources
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/base/mysql/mysql.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]

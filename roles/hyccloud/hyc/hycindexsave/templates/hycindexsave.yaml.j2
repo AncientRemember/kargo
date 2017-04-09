@@ -1,0 +1,41 @@
+apiVersion: "v1"
+kind: "ReplicationController"
+metadata: 
+  name: "hycindexsave"
+  labels: 
+    app: "hycindexsave"
+spec: 
+  replicas: 2
+  template: 
+    metadata: 
+      name: "hycindexsave"
+      labels: 
+        app: "hycindexsave"
+    spec: 
+      containers: 
+        - name: "hycindexsave"
+          image: {{ hycindexsave_private_repo }}:{{ hycindexsave_version }}
+          imagePullPolicy: Always
+          ports: 
+            - containerPort: 8080
+            - containerPort: 9555
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "hycindexsave"
+spec:
+  type: NodePort
+  selector:
+    app: "hycindexsave"
+  ports:
+    - name: "http"
+      port: 8080
+      targetPort: 8080
+      nodePort: 30999
+      protocol: "TCP"
+    - name: "debug"
+      port: 9555
+      targetPort: 9555
+      nodePort: 30998
+

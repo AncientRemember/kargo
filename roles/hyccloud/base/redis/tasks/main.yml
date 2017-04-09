@@ -1,0 +1,13 @@
+- name: Redis | Create redis manifest
+  template:
+    src: redis.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/base/redis/redis.yml"
+  register: redis_manifest
+  when: inventory_hostname == groups['kube-master'][0]
+
+- name: Redis | Start redis Resources
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/base/redis/redis.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]
