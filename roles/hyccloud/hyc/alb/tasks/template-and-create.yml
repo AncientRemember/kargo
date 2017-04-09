@@ -1,0 +1,12 @@
+- name: alb-{{ targethost }} | Create alb manifest
+  template:
+    src: alb.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/hycapp/alb/{{targethost}}-alb.yml"
+  when: inventory_hostname == groups['kube-master'][0]
+
+- name: alb-{{ targethost }} | Start alb Resources
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/hycapp/alb/{{targethost}}-alb.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]

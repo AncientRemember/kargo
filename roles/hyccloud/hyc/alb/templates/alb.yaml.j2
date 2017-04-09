@@ -1,0 +1,25 @@
+{# nmap annotations #}
+{%   set nmap %}intranet:{{ hostvars[targethost]['region'] }}:{{ hostvars[targethost]['ansible_ssh_host'] }}:80{% endset %}
+{% if hostvars[targethost]['apn'] is defined %}
+{%   set nmap %}{{ nmap }} apn:{{ hostvars[targethost]['region'] }}:{{ hostvars[targethost]['apn'] }}:{{ hostvars[targethost]['alb']|default("80") }}{% endset %}
+{% endif %}
+{% if hostvars[targethost]['internet'] is defined  %}
+{%   set nmap %}{{ nmap }}apn:{{ hostvars[targethost]['region'] }}:{{ hostvars[targethost]['internet'] }}:{{ hostvars[targethost]['alb']|default("80") }}{% endset %}
+{% endif %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: alb-{{ hostvars[targethost]['region'] }}-{{ targethost }}
+  labels:
+    app: alb
+    region: {{ hostvars[targethost]['region'] }}
+spec:
+  containers:
+    - name: alb
+      image: {{ alb_private_repo }}:{{ alb_version }}
+      ports:
+        - containerPort: 8080
+          hostPort: 80
+  nodeSelector: 
+      kubernetes.io/hostname: {{ hostvars[targethost]['ansible_ssh_host'] }}
+        

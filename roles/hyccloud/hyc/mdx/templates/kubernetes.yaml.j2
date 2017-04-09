@@ -1,0 +1,35 @@
+apiVersion: "v1"
+kind: "ReplicationController"
+metadata: 
+  name: "mds"
+  labels: 
+    app: "mds"
+spec: 
+  replicas: 2
+  template: 
+    metadata: 
+      name: "mds"
+      labels: 
+        app: "mds"
+    spec: 
+      containers: 
+        - name: "mds"
+          image: {{ mds_private_repo }}:{{ mds_version }}
+          imagePullPolicy: Always
+          ports: 
+            - containerPort: 8001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "false"
+  name: mds
+  labels:
+    app: mds
+spec:
+  ports:
+    - port: 8001
+  selector:
+    app: mds
+    

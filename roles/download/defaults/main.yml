@@ -69,7 +69,7 @@ mysql_public_repo: "mysql"
 mysql_image_repo: "{{ mysql_private_repo if install_offline|bool else  elasticsearch_public_repo}}"
 mysql_image_tag: "{{ mysql_version }}"
 # reference https://github.com/kubernetes/contrib/tree/master/ingress/controllers/nginx/examples/full
-nginx_ingress_controller_version: "0.8.3"
+nginx_ingress_controller_version: "0.9.0-beta.3"
 nginx_ingress_controller_private_name: "nginx-ingress-controller"
 nginx_ingress_controller_private_repo: "{{ insecure_registry }}/{{ nginx_ingress_controller_private_name }}"
 nginx_ingress_controller_public_repo: "gcr.io/google_containers/nginx-ingress-controller"

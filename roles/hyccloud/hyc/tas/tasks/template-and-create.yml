@@ -1,0 +1,12 @@
+- name: tas | Create tas manifest
+  template:
+    src: tastemplate.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/hycapp/tas/{{targethost}}-tas.yml"
+  when: inventory_hostname == groups['kube-master'][0]
+
+- name: tas | Start tas Resources
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/hycapp/tas/{{targethost}}-tas.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]

@@ -1,0 +1,6 @@
+- include: template-and-create.yml
+  vars: 
+    targethost: "{{item}}"
+  ignore_errors: yes
+  with_items: "{{ groups['access-layer'] }}"
+  when: inventory_hostname == groups['kube-master'][0]

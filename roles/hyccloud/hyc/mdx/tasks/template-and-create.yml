@@ -1,0 +1,12 @@
+- name: mdu-{{ targethost }} | Create mdu manifest
+  template:
+    src: mdu.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/hycapp/mdx/{{targethost}}-mdu.yml"
+  when: inventory_hostname == groups['kube-master'][0]
+
+- name: mdu-{{ targethost }} | Start mdu Resources
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/hycapp/mdx/{{targethost}}-mdu.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]

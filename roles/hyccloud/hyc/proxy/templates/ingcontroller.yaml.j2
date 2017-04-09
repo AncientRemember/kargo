@@ -1,0 +1,59 @@
+{# nmap annotations #}
+{%   set nmap %}intranet:{{ hostvars[targethost]['region'] }}:{{ hostvars[targethost]['ansible_ssh_host'] }}:8086{% endset %}
+{% if hostvars[targethost]['apn'] is defined %}
+{%   set nmap %}{{ nmap }} apn:{{ hostvars[targethost]['region'] }}:{{ hostvars[targethost]['apn'] }}:{{ hostvars[targethost]['nginx']|default("8086") }}{% endset %}
+{% endif %}
+{% if hostvars[targethost]['internet'] is defined  %}
+{%   set nmap %}{{ nmap }}apn:{{ hostvars[targethost]['region'] }}:{{ hostvars[targethost]['internet'] }}:{{ hostvars[targethost]['nginx']|default("8086") }}{% endset %}
+{% endif %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ hostvars[targethost]['region'] }}-{{targethost}}-ingress-controller
+  labels:
+    app: ingress-controller
+    region: {{ hostvars[targethost]['region'] }}
+  annotations:
+    nmap: {{ nmap }}
+spec:
+  terminationGracePeriodSeconds: 60
+  nodeSelector: 
+      kubernetes.io/hostname: {{ hostvars[targethost]['ansible_ssh_host'] }}
+  containers:
+  - image: {{ nginx_ingress_controller_image_repo }}:{{ nginx_ingress_controller_image_tag }}
+    name: nginx-ingress-lb
+    imagePullPolicy: Always
+    readinessProbe:
+      httpGet:
+        path: /healthz
+        port: 10254
+        scheme: HTTP
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 10254
+        scheme: HTTP
+      initialDelaySeconds: 10
+      timeoutSeconds: 1
+    # use downward API
+    env:
+      - name: POD_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.name
+      - name: POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.namespace
+    ports:
+    - containerPort: 80
+      hostPort: 8086
+    - containerPort: 443
+      hostPort: 443
+    # we expose 18080 to access nginx stats in url /nginx-status
+    # this is optional
+    - containerPort: 18080
+      hostPort: 18080
+    args:
+    - /nginx-ingress-controller
+    - --default-backend-service=$(POD_NAMESPACE)/default-http-backend

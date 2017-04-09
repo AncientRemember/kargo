@@ -1,0 +1,12 @@
+- name: ingress-controller | Create ingress-controller manifest
+  template:
+    src: ingcontroller.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/hycapp/ingress/{{targethost}}-ingcontroller.yml"
+  when: inventory_hostname == groups['kube-master'][0]
+
+- name: ingress | Start ingress Resources
+  kube:
+    kubectl: "{{ bin_dir }}/kubectl"
+    filename: "{{ kube_config_dir }}/hyc/hycapp/ingress/{{targethost}}-ingcontroller.yml"
+    state: 'present'
+  when: inventory_hostname == groups['kube-master'][0]

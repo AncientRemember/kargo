@@ -1,13 +1,13 @@
-- name: ingress | Create ingress manifest
+- name: mds | Create mds manifest
   template:
-    src: ingress-default.yaml.j2
-    dest: "{{ kube_config_dir }}/hyc/hycapp/ingress/ingress-default.yml"
+    src: kubernetes.yaml.j2
+    dest: "{{ kube_config_dir }}/hyc/hycapp/mdx/mds.yml"
   when: inventory_hostname == groups['kube-master'][0]
 
-- name: ingress | Start ingress Resources
+- name: mds | Start mds Resources
   kube:
     kubectl: "{{ bin_dir }}/kubectl"
-    filename: "{{ kube_config_dir }}/hyc/hycapp/ingress/ingress-default.yml"
+    filename: "{{ kube_config_dir }}/hyc/hycapp/mdx/mds.yml"
     state: 'present'
   when: inventory_hostname == groups['kube-master'][0]
   
