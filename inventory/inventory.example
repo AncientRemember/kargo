@@ -1,13 +1,13 @@
 # ## Configure 'ip' variable to bind kubernetes services on a
 # ## different ip than the default iface
-# node1 ansible_ssh_host=95.54.0.12  # ip=10.3.0.1
-# node2 ansible_ssh_host=95.54.0.13  # ip=10.3.0.2
-# node3 ansible_ssh_host=95.54.0.14  # ip=10.3.0.3
-# node4 ansible_ssh_host=95.54.0.15  # ip=10.3.0.4
-# node5 ansible_ssh_host=95.54.0.16  # ip=10.3.0.5
-# node6 ansible_ssh_host=95.54.0.17  # ip=10.3.0.6
+# node1 ansible_ssh_host=95.54.0.12  # ip=10.3.0.1 #region=zongbu
+# node2 ansible_ssh_host=95.54.0.13  # ip=10.3.0.2 #region=zongbu
+# node3 ansible_ssh_host=95.54.0.14  # ip=10.3.0.3 #region=suzhou
+# node4 ansible_ssh_host=95.54.0.15  # ip=10.3.0.4 #region=suzhou #apn=10.4.0.1 #internet=10.5.0.1 #albport=80 #nginx=8086 #tas=3000 #mdu=3001
+# node5 ansible_ssh_host=95.54.0.16  # ip=10.3.0.5 #region=wuxi   #apn=10.4.0.2 #internet=10.5.0.2 #albport=80 #nginx=8086 #tas=3000 #mdu=3001
+# node6 ansible_ssh_host=95.54.0.17  # ip=10.3.0.6 #region=wuxi   #apn=10.4.0.3 #internet=10.5.0.3 #albport=80 #nginx=8086 #tas=3000 #mdu=3001
 
-# ## configure a bastion host if your nodes are not directly reachable
+# ## configure a bastion ±¤ÀÝ»ú host if your nodes are not directly reachable
 # bastion ansible_ssh_host=x.x.x.x
 
 # [kube-master]
@@ -29,3 +29,8 @@
 # [k8s-cluster:children]
 # kube-node
 # kube-master
+
+# [access-layer]
+# node4
+# node5
+# node6

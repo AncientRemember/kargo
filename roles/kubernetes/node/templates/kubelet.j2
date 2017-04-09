@@ -40,6 +40,7 @@ KUBELET_HOSTNAME="--hostname-override={{ ansible_hostname }}"
 {% else %}
 {%   set node_labels %}--node-labels=node-role.kubernetes.io/node=true{% endset %}
 {% endif %}
+{% set node_labels %}{{ node_labels }},region={{ hostvars[inventory_hostname]['region'] }}{% endset %}
 
 KUBELET_ARGS="{{ kubelet_args_base }} {{ kubelet_args_dns }} {{ kubelet_args_kubeconfig }} {{ node_labels }}"
 {% if kube_network_plugin is defined and kube_network_plugin in ["calico", "weave", "canal"] %}
