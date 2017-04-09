@@ -2,7 +2,6 @@
   template:
     src: das.yaml.j2
     dest: "{{ kube_config_dir }}/hyc/hycapp/das/das.yml"
-  register: redis_manifest
   when: inventory_hostname == groups['kube-master'][0]
 
 - name: das | Start das Resources

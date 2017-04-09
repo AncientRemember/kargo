@@ -2,7 +2,6 @@
   template:
     src: kubernetes.yaml.j2
     dest: "{{ kube_config_dir }}/hyc/hycapp/groupservice/groupservice.yml"
-  register: redis_manifest
   when: inventory_hostname == groups['kube-master'][0]
 
 - name: groupservice | Start groupservice Resources

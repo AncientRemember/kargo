@@ -2,7 +2,6 @@
   template:
     src: kubernetes.yaml.j2
     dest: "{{ kube_config_dir }}/hyc/hycapp/sss/sss.yml"
-  register: redis_manifest
   when: inventory_hostname == groups['kube-master'][0]
 
 - name: sss | Start sss Resources
