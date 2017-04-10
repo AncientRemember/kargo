@@ -1,0 +1,28 @@
+# ## Configure 'ip' variable to bind kubernetes services on a
+# ## different ip than the default iface
+k8s-01 ansible_ssh_host=192.168.0.101 region=zongbu
+k8s-02 ansible_ssh_host=192.168.0.102 region=zongbu
+k8s-03 ansible_ssh_host=192.168.0.103 region=suzhou internet=192.168.29.20
+
+# ## configure a bastion ±¤ÀÝ»ú host if your nodes are not directly reachable
+# bastion ansible_ssh_host=x.x.x.x
+
+[kube-master]
+k8s-01
+k8s-02
+
+[etcd]
+k8s-01
+k8s-02
+k8s-03
+
+[kube-node]
+k8s-02
+k8s-03
+
+[k8s-cluster:children]
+kube-node
+kube-master
+
+[access-layer]
+k8s-03
