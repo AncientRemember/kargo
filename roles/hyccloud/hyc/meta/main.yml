@@ -6,5 +6,4 @@ dependencies:
   - {role: hyccloud/hyc/proxy, tags: [hyc,hycapp]}
   - {role: hyccloud/hyc/mdx, tags: [hyc,hycapp]}
   - {role: hyccloud/hyc/tas, tags: [hyc,hycapp]}
-  - {role: hyccloud/hyc/ingress-controller, tags: [hyc,hycapp]}
   - {role: hyccloud/hyc/alb, tags: [hyc,hycapp]}
