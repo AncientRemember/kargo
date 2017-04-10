@@ -72,6 +72,8 @@ Vagrant.configure("2") do |config|
         config.proxy.no_proxy = $no_proxy
       end
 
+	  config.vm.synced_folder ".", "/vagrant", disabled: true
+	  
       if $expose_docker_tcp
         config.vm.network "forwarded_port", guest: 2375, host: ($expose_docker_tcp + i - 1), auto_correct: true
       end
