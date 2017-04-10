@@ -77,4 +77,8 @@ endif
 ifdef upvm
 	vagrant up --no-provision
 endif
+ifdef upvmonly
+	vagrant up --no-provision	
+else
 	vagrant provision
+endif
