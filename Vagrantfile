@@ -81,6 +81,8 @@ Vagrant.configure("2") do |config|
       $forwarded_ports.each do |guest, host|
         config.vm.network "forwarded_port", guest: guest, host: host, auto_correct: true
       end
+      
+      
 
       ["vmware_fusion", "vmware_workstation"].each do |vmware|
         config.vm.provider vmware do |v|
@@ -105,12 +107,29 @@ Vagrant.configure("2") do |config|
         # Override the default 'calico' with flannel.
         # inventory/group_vars/k8s-cluster.yml
         "kube_network_plugin": "weave",
+        "region": vm_name,
       }
       config.vm.network :private_network, ip: ip
 
       # Only execute once the Ansible provisioner,
       # when all the machines are up and ready.
       if i == $num_instances
+      	config.vm.network "forwarded_port", guest: 8086, host: 8086, auto_correct: true
+      	config.vm.network "forwarded_port", guest: 80, host: 80, auto_correct: true
+      	config.vm.network "forwarded_port", guest: 3001, host: 3001, auto_correct: true
+      	config.vm.network "forwarded_port", guest: 3002, host: 3002, auto_correct: true
+      	host_vars[vm_name] = {
+	        "ip": ip,
+	        "flannel_interface": ip,
+	        "flannel_backend_type": "host-gw",
+	        "local_release_dir" => $local_release_dir,
+	        "download_run_once": "False",
+	        # Override the default 'calico' with flannel.
+	        # inventory/group_vars/k8s-cluster.yml
+	        "kube_network_plugin": "weave",
+	        "region": vm_name,
+	        "internet": 192.168.29.20,
+        }
         config.vm.provision "ansible" do |ansible|
           ansible.playbook = "cluster.yml"
           if File.exist?(File.join(File.dirname($inventory), "hosts"))
@@ -127,6 +146,7 @@ Vagrant.configure("2") do |config|
             "kube-master" => ["#{$instance_name_prefix}-0[1:#{$kube_master_instances}]"],
             "kube-node" => ["#{$instance_name_prefix}-0[1:#{$kube_node_instances}]"],
             "k8s-cluster:children" => ["kube-master", "kube-node"],
+            "access-layer" =>["#{$instance_name_prefix}-#{$kube_node_instances}]"],
           }
         end
       end
