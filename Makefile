@@ -74,11 +74,5 @@ ifeq ($(shell yum list installed | grep VirtualBox|wc -l),0)
 	wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -O /etc/yum.repos.d/virtualbox.repo
 	yum install -y VirtualBox-5.1.x86_64
 endif
-ifdef upvm
-	vagrant up --no-provision
-endif
-ifdef upvmonly
 	vagrant up --no-provision	
-else
 	vagrant provision
-endif
