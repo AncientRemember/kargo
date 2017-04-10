@@ -128,7 +128,7 @@ Vagrant.configure("2") do |config|
 	        # inventory/group_vars/k8s-cluster.yml
 	        "kube_network_plugin": "weave",
 	        "region": vm_name,
-	        "internet": 192.168.29.20,
+	        "internet": "192.168.29.20",
         }
         config.vm.provision "ansible" do |ansible|
           ansible.playbook = "cluster.yml"
