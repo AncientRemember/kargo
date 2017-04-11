@@ -1,3 +1,10 @@
+- name: Create kubernetes config hyc/base/elasticsearch directory
+  file:
+    path: "{{ kube_config_dir }}/hyc/base/elasticsearch"
+    state: directory
+    owner: kube
+  when: inventory_hostname == groups['kube-master'][0]
+
 - name: Elasticsearch | Create elasticsearch manifest es-master
   template:
     src: es-master.yaml.j2

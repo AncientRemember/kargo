@@ -1,3 +1,10 @@
+- name: Create kubernetes config hyc/hycapp/das directory
+  file:
+    path: "{{ kube_config_dir }}/hyc/hycapp/das"
+    state: directory
+    owner: kube
+  when: inventory_hostname == groups['kube-master'][0]
+
 - name: das | Create das manifest
   template:
     src: das.yaml.j2

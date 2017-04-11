@@ -1,3 +1,10 @@
+- name: Create kubernetes config hyc/hycapp/groupservice directory
+  file:
+    path: "{{ kube_config_dir }}/hyc/hycapp/groupservice"
+    state: directory
+    owner: kube
+  when: inventory_hostname == groups['kube-master'][0]
+
 - name: groupservice | Create groupservice manifest
   template:
     src: kubernetes.yaml.j2

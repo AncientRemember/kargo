@@ -1,3 +1,10 @@
+- name: Create kubernetes config hyc/base/ceph directory
+  file:
+    path: "{{ kube_config_dir }}/hyc/base/ceph"
+    state: directory
+    owner: kube
+  when: inventory_hostname == groups['kube-master'][0]
+  
 - name: Ceph | Create ceph storageclass in default namespace
   template:
     src: default-rbd-storageclass.yaml.j2

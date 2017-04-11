@@ -1,3 +1,10 @@
+- name: Create kubernetes config hyc/hycapp/tas directory
+  file:
+    path: "{{ kube_config_dir }}/hyc/hycapp/tas"
+    state: directory
+    owner: kube
+  when: inventory_hostname == groups['kube-master'][0]
+
 - include: template-and-create.yml
   vars: 
     targethost: "{{item}}"

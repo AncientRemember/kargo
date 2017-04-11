@@ -1,3 +1,10 @@
+- name: Create kubernetes config hyc/hycapp/hycindexsave directory
+  file:
+    path: "{{ kube_config_dir }}/hyc/hycapp/hycindexsave"
+    state: directory
+    owner: kube
+  when: inventory_hostname == groups['kube-master'][0]
+
 - name: hycindexsave | Create hycindexsave manifest
   template:
     src: hycindexsave.yaml.j2

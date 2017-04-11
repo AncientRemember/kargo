@@ -1,3 +1,10 @@
+- name: Create kubernetes config hyc/hycapp/sss directory
+  file:
+    path: "{{ kube_config_dir }}/hyc/hycapp/sss"
+    state: directory
+    owner: kube
+  when: inventory_hostname == groups['kube-master'][0]
+
 - name: sss | Create sss manifest
   template:
     src: kubernetes.yaml.j2

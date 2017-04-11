@@ -1,3 +1,10 @@
+- name: Create kubernetes config hyc/base/mysql directory
+  file:
+    path: "{{ kube_config_dir }}/hyc/base/mysql"
+    state: directory
+    owner: kube
+  when: inventory_hostname == groups['kube-master'][0]
+
 - name: mysql | Create mysql manifest
   template:
     src: mysql.yaml.j2

@@ -1,3 +1,10 @@
+- name: Create kubernetes config hyc/hycapp/ingress directory
+  file:
+    path: "{{ kube_config_dir }}/hyc/hycapp/ingress"
+    state: directory
+    owner: kube
+  when: inventory_hostname == groups['kube-master'][0]
+
 - name: ingress | Create ingress manifest
   template:
     src: ingress-default.yaml.j2

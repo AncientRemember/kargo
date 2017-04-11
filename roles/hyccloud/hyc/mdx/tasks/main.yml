@@ -1,3 +1,10 @@
+- name: Create kubernetes config hyc/hycapp/mdx directory
+  file:
+    path: "{{ kube_config_dir }}/hyc/hycapp/mdx"
+    state: directory
+    owner: kube
+  when: inventory_hostname == groups['kube-master'][0]
+
 - name: mds | Create mds manifest
   template:
     src: kubernetes.yaml.j2
