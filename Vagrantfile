@@ -14,7 +14,7 @@ $vm_gui = false
 $vm_memory = 1536
 $vm_cpus = 1
 $shared_folders = {}
-$forwarded_ports = {}
+$forwarded_ports = {8080 => 8080}
 $subnet = "192.168.0"
 $box = "centos/7"
 # The first three nodes are etcd servers
@@ -81,8 +81,6 @@ Vagrant.configure("2") do |config|
       $forwarded_ports.each do |guest, host|
         config.vm.network "forwarded_port", guest: guest, host: host, auto_correct: true
       end
-      
-      
 
       ["vmware_fusion", "vmware_workstation"].each do |vmware|
         config.vm.provider vmware do |v|
