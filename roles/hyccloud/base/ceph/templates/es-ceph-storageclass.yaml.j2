@@ -3,11 +3,9 @@ kind: Secret
 metadata:
   name: ceph-secret-admin
   namespace: "kube-system"
-  labels:
-    kubernetes.io/cluster-service: "true"
 type: kubernetes.io/rbd
 data:
-  key: {{ ceph-adminkey }}
+  key: {{ ceph_adminkey }}
 
 ---
 
@@ -20,10 +18,10 @@ metadata:
       kubernetes.io/cluster-service: "true"
 provisioner: kubernetes.io/rbd
 parameters:
-    monitors: {{ ceph-monitors }}
-    adminId: {{ ceph-adminid }}
+    monitors: {{ ceph_monitors }}
+    adminId: {{ ceph_adminid }}
     adminSecretName: ceph-secret
     adminSecretNamespace: "kube-system"  
-    pool: {{ ceph-pool }}
-    userId: {{ ceph-adminid }}
+    pool: {{ ceph_pool }}
+    userId: {{ ceph_adminid }}
     userSecretName: ceph-secret-admin

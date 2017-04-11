@@ -4,20 +4,18 @@ metadata:
   name: ceph-secret
 type: kubernetes.io/rbd
 data:
-  key: {{ ceph-adminkey }}
-
+  key: {{ ceph_adminkey }}
 ---
-
 apiVersion: storage.k8s.io/v1beta1
 kind: StorageClass
 metadata:
     name: slow
 provisioner: kubernetes.io/rbd
 parameters:
-    monitors: {{ ceph-monitors }}
-    adminId: {{ ceph-adminid }}
+    monitors: {{ ceph_monitors }}
+    adminId: {{ ceph_adminid }}
     adminSecretName: ceph-secret
-    pool: {{ ceph-pool }}
-    userId: {{ ceph-adminid }}
+    pool: {{ ceph_pool }}
+    userId: {{ ceph_adminid }}
     userSecretName: ceph-secret
 
