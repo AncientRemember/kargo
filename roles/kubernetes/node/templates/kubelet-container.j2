@@ -11,6 +11,7 @@
   -v /etc/cni:/etc/cni:ro \
   -v /opt/cni:/opt/cni:ro \
   -v /etc/ssl:/etc/ssl:ro \
+  -v /etc/resolv.conf:/etc/resolv.conf \
   {% for dir in ssl_ca_dirs -%}
   -v {{ dir }}:{{ dir }}:ro \
   {% endfor -%}
@@ -21,6 +22,7 @@
   -v {{ docker_daemon_graph }}:/var/lib/docker:rw \
   -v /var/log:/var/log:rw \
   -v /var/lib/kubelet:/var/lib/kubelet:shared \
+  -v /var/lib/cni:/var/lib/cni:shared \
   -v /var/run:/var/run:rw \
   -v {{kube_config_dir}}:{{kube_config_dir}}:ro \
   {{ hyperkube_image_repo }}:{{ hyperkube_image_tag}} \

@@ -1,6 +1,4 @@
 ---
-
-
 local_release_dir: /tmp
 
 # if this is set to true will only download files once. Doesn't work
@@ -91,15 +89,15 @@ rocketmq_image_repo: "{{ rocketmq_private_repo if install_offline|bool else  roc
 rocketmq_image_tag: "{{ rocketmq_version }}"
 
 #kubernetes 
-kube_version: v1.5.3
-etcd_version: v3.0.4
+kube_version: v1.6.1
+etcd_version: v3.0.6
 #TODO(mattymo): Move calico versions to roles/network_plugins/calico/defaults
 # after migration to container download
 calico_version: "v1.1.0-rc8"
 calico_cni_version: "v1.5.6"
-calico_policy_version: "v0.5.2"
+calico_policy_version: "v0.5.4"
 weave_version: 1.9.4
-flannel_version: v0.6.1-amd64
+flannel_version: v0.6.2
 pod_infra_version: 3.0
 
 # Download URL's
