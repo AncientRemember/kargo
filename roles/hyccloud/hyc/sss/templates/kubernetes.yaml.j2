@@ -24,7 +24,8 @@ spec:
               path: /
               port: 8080
             initialDelaySeconds: 600
-            timeoutSeconds: 1
+            periodSeconds: 300
+            timeoutSeconds: 10
 ---
 apiVersion: "v1"
 kind: "Service"
