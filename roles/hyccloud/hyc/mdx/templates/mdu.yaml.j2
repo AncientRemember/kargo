@@ -23,4 +23,4 @@ spec:
         - containerPort: 8001
           hostPort: 3001
   nodeSelector:
-    kubernetes.io/hostname: hostvars[targethost]['ip']|default(hostvars[targethost]['ansible_ssh_host'])
+    kubernetes.io/hostname: {{ targethost }}

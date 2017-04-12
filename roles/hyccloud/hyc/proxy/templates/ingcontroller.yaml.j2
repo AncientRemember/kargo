@@ -18,7 +18,7 @@ metadata:
 spec:
   terminationGracePeriodSeconds: 60
   nodeSelector: 
-      kubernetes.io/hostname: {{ hostvars[targethost]['ip']|default(hostvars[targethost]['ansible_ssh_host']) }}
+      kubernetes.io/hostname: {{ targethost }}
   containers:
   - image: {{ nginx_ingress_controller_image_repo }}:{{ nginx_ingress_controller_image_tag }}
     name: nginx-ingress-lb
