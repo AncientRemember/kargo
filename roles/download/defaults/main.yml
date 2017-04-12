@@ -490,7 +490,7 @@ downloads:
     name: "{{ hycindexsave_private_name }}"
     publicrepo: "{{ hycindexsave_private_repo }}"
     repo: "{{ hycindexsave_private_repo }}"
-    tag: "{{ groupservice_version }}"
+    tag: "{{ hycindexsave_version }}"
     sha256: "{{ hycindexsave_digest_checksum|default(None) }}"
   mds:
     container: true

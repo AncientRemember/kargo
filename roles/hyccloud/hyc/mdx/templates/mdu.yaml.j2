@@ -11,7 +11,7 @@ kind: Pod
 metadata:
   labels:
     app: mdu
-    region: hostvars[targethost]['region']
+    region: {{ hostvars[targethost]['region'] }}
   name: mdu-{{ hostvars[targethost]['region'] }}-{{ targethost }}
   annotations:
     nmap: {{ nmap }}
