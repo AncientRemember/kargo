@@ -17,7 +17,7 @@
 
 - set_fact:
     wait_for_delegate: "{{hostvars['bastion']['ansible_ssh_host']}}"
-  when: 'bastion' in groups['all']
+  when: ('bastion' in groups['all'])
 
 - name: wait for bastion to come back
   wait_for:
