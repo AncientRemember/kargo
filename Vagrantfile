@@ -144,7 +144,7 @@ Vagrant.configure("2") do |config|
             "kube-master" => ["#{$instance_name_prefix}-0[1:#{$kube_master_instances}]"],
             "kube-node" => ["#{$instance_name_prefix}-0[1:#{$kube_node_instances}]"],
             "k8s-cluster:children" => ["kube-master", "kube-node"],
-            "access-layer" =>["#{$instance_name_prefix}-0#{$kube_node_instances}]"],
+            "access-layer" =>["#{$instance_name_prefix}-0#{$kube_node_instances}"],
           }
         end
       end
