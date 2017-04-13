@@ -8,7 +8,7 @@ Vagrant.require_version ">= 1.8.0"
 CONFIG = File.join(File.dirname(__FILE__), "vagrant/config.rb")
 
 # Defaults for config options defined in CONFIG
-$num_instances = 3
+$num_instances = 2
 $instance_name_prefix = "k8s"
 $vm_gui = false
 $vm_memory = 1536
@@ -144,7 +144,7 @@ Vagrant.configure("2") do |config|
             "kube-master" => ["#{$instance_name_prefix}-0[1:#{$kube_master_instances}]"],
             "kube-node" => ["#{$instance_name_prefix}-0[1:#{$kube_node_instances}]"],
             "k8s-cluster:children" => ["kube-master", "kube-node"],
-            "access-layer" =>["#{$instance_name_prefix}-#{$kube_node_instances}]"],
+            "access-layer" =>["#{$instance_name_prefix}-0#{$kube_node_instances}]"],
           }
         end
       end
