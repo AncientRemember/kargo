@@ -1,4 +1,3 @@
----
 - set_fact:
     pull_by_digest: >-
       {%- if download.sha256 is defined and download.sha256 != '' -%}true{%- else -%}false{%- endif -%}
