@@ -11,3 +11,4 @@
   ignore_errors: yes
   with_items: "{{ groups['access-layer'] }}"
   when: inventory_hostname == groups['kube-master'][0]
+  ignore_errors: yes

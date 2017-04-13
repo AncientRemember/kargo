@@ -17,3 +17,4 @@
     filename: "{{ kube_config_dir }}/hyc/hycapp/das/das.yml"
     state: 'present'
   when: inventory_hostname == groups['kube-master'][0]
+  ignore_errors: yes
