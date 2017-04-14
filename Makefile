@@ -47,15 +47,7 @@ prepare: common
 	docker load < ./dependencies/containers/registry2.tar
 	$(shell docker run -d -p 5000:5000 -v $(pwd)/dependencies/registry:/var/lib/registry --name registry registry:2)
 deploy: 
-ifdef tags
-	ansible-playbook cluster.yml -i ./inventory/hosts --tags="$(tags)"
-else ifdef skiptags
-	ansible-playbook cluster.yml -i ./inventory/hosts --skip-tags="$(tags)"
-else
 	ansible-playbook cluster.yml -i ./inventory/hosts
-endif
-
-	
 package: 
 	ansible-playbook prepareoffline.yml -i ./inventory/local-tests.cfg
 	tar --exclude='./.vagrant' -zcf ../kargo.tar.gz .
