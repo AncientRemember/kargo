@@ -35,7 +35,7 @@
 common:
 	yum -y update
 	yum -y install epel-release
-	yum -y install python python-pip ansible docker
+	yum -y install python python-pip ansible docker openssl-devel
 	pip install --upgrade pip
 	pip install docker-py
 	pip install --upgrade Jinja2

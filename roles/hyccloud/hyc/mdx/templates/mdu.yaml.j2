@@ -16,6 +16,8 @@ metadata:
   annotations:
     nmap: {{ nmap }}
 spec:
+  hostname: mdu-{{ hostvars[targethost]['region'] }}-{{ targethost }}
+  subdomain: mdu
   containers:
     - name: mdu
       image: {{ mdu_private_repo }}:{{ mdu_version }}
