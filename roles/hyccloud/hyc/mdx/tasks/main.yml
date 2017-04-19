@@ -24,6 +24,7 @@
     dest: "{{ kube_config_dir }}/hyc/hycapp/mdx/mduservice.yml"
   when: inventory_hostname == groups['kube-master'][0]
   
+  
 - name: mds | Start mduservice Resources
   kube:
     kubectl: "{{ bin_dir }}/kubectl"
